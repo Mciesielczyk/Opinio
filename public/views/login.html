@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- deklaracja kodowania znaków -->
+    <meta charset="UTF-8">
+
+    <!-- responsywność strony -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- tytuł strony -->
+    <title>Document</title>
+
+    <!-- podłączenie stylów CSS -->
+    <link rel="stylesheet" type="text/css" href="public/styles/Login_0.css">
+</head>
+
+<body>
+    <!-- formularz logowania: wysyła dane metodą POST na ścieżkę /login -->
+    <form id="login-form" action="/login" method="POST">
+
+        <!-- nagłówek formularza -->
+        <h1 id="title">LOGIN</h1>
+
+        <!-- sprawdzenie, czy istnieje zmienna $message -->
+        <?php if(isset($message)): ?>
+            <p class="message">
+                <!-- wypisanie wiadomości -->
+                <?= $message; ?>
+            </p>
+        <?php endif; ?>
+
+        <!-- pola formularza -->
+        <input name="email" type="email" placeholder="Podaj email">
+        <input name="password" type="password" placeholder="Podaj hasło">
+
+        <!-- przycisk wysyłający formularz -->
+        <button type="submit">LOGIN</button>
+
+        <!-- link do rejestracji -->
+        <a href="/register">Zarejestruj się</a>
+    </form>
+
+    <script src="public/scripts/login.js"></script>
+
+</body>
+</html>
