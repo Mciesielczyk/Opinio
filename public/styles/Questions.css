@@ -1,0 +1,85 @@
+
+
+/* ===== GLOBAL ===== */
+body {
+    font-family: "Inter", sans-serif;
+    margin: 0;
+     width: 100%;
+    height: 100vh;
+        background: linear-gradient(90deg, #1a1aff, #ff4d4d);
+            min-width: 800px;   /* minimalna szerokość strony */
+    min-height: 600px;  /* minimalna wysokość strony */
+}
+
+
+
+
+
+/* ===== WIADOMOŚĆ ===== */
+.message {
+    padding: 35px 70px;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/* ===== LISTA ANKIET ===== */
+.survey-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+    padding: 2% 6%;
+}
+
+.survey-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 1px 8px 13px -8px rgba(66, 68, 90, 1);
+    width: 250px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+}
+
+.survey-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.survey-card .caption {
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.survey-card .questions-count {
+    font-size: 0.9rem;
+    color: #666;
+    padding-bottom: 10px;
+}
+
+
+
+/* ===== RESPONSYWNOŚĆ ===== */
+@media (max-width: 800px) {
+    .survey-list {
+        justify-content: center;
+    }
+
+    .survey-card {
+        width: 90%;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .menu {
+        justify-content: center;
+        width: 100%;
+    }
+}

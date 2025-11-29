@@ -11,7 +11,7 @@
             align-items: center;
             color: #fff;
             position: relative; /* potrzebne do pseudo-elementu */
-    overflow: hidden;
+            overflow: hidden;
         }
 
 
@@ -125,4 +125,39 @@ body::before {
     z-index: -1;
     transform: rotate(0deg);
     transition: none;
+}
+
+
+.forgot-password {
+    display: block;      /* ustawia link jako element blokowy → spada pod spód */
+    margin-top: 6px;     /* odstęp od elementu wyżej */
+    font-size: 0.9rem;   /* mniejszy tekst */
+    color: #190047;         /* delikatniejszy kolor */
+    text-decoration: none;
+        text-align: right;
+          gap: 1px; 
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+.input-wrapper {
+    position: relative; /* pozwala umieścić ikonę wewnątrz inputa */
+    width: 250px;       /* przykładowa szerokość */
+}
+.input-wrapper input {
+    width: 100%;
+    padding-right: 36px; /* miejsce na ikonę */
+    height: 36px;
+    box-sizing: border-box;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 8px;          /* odstęp od prawej */
+    top: 50%;
+    transform: translateY(-50%); /* idealne centrowanie */
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
 }

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+     <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/Friends.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/Buttons.css">
+
+
+</head>
+<body>
+    <?php include 'header.php'; ?>
+
+    <div class="message">
+        Znajomi
+    </div>
+
+    <div class="searchbar">
+        <input name="searchbar" placeholder="Szukaj znajomych">
+        <button type="submit">SZUKAJ</button>
+    </div>
+
+
+
+    <div class="friends-list">
+    <ul>
+        <li class="friend-card">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profil John Doe">
+            <div class="friend-info">
+                <span class="friend-name">John Doe</span>
+                <span class="friend-similarity">Podobieństwo: 78%</span>
+                <span class="friend-description">
+                    John interesuje się polityką międzynarodową i lubi dzielić się swoimi przemyśleniami na temat aktualnych wydarzeń.
+                </span>
+            </div>
+            <div class="friend-actions">
+                <button class="friend-message-btn">Wiadomość</button>
+            </div>
+        </li>
+
+        <li class="friend-card">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Profil Jane Smith">
+            <div class="friend-info">
+                <span class="friend-name">Jane Smith</span>
+                <span class="friend-similarity">Podobieństwo: 85%</span>
+                <span class="friend-description">
+                    Jane interesuje się ekologią i aktywnie uczestniczy w lokalnych projektach społecznych.
+                </span>
+            </div>
+            <div class="friend-actions">
+                <button class="friend-message-btn">Wiadomość</button>
+            </div>
+        </li>
+
+        <li class="friend-card">
+            <img src="https://randomuser.me/api/portraits/men/77.jpg" alt="Profil Mike Johnson">
+            <div class="friend-info">
+                <span class="friend-name">Mike Johnson</span>
+                <span class="friend-similarity">Podobieństwo: 63%</span>
+                <span class="friend-description">
+                    Mike interesuje się technologią i nowinkami cyfrowymi, często dzieli się ciekawymi artykułami online.
+                </span>
+            </div>
+            <div class="friend-actions">
+                <button class="friend-message-btn">Wiadomość</button>
+            </div>
+        </li>
+
+        <li class="friend-card">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Profil Emily Davis">
+            <div class="friend-info">
+                <span class="friend-name">Emily Davis</span>
+                <span class="friend-similarity">Podobieństwo: 90%</span>
+                <span class="friend-description">
+                    Emily interesuje się prawami obywatelskimi i uczestniczy w debatach społecznych, lubi dyskusje na tematy polityczne.
+                </span>
+            </div>
+            <div class="friend-actions">
+                <button class="friend-message-btn">Wiadomość</button>
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+
+</body>
+</html>

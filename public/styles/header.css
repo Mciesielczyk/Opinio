@@ -1,0 +1,51 @@
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* logo po lewej, settings po prawej */
+    background: rgba(255, 255, 255, 0.211);
+    backdrop-filter: blur(20px);
+    padding: 40px 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 1.6rem;
+    position: relative;
+}
+
+
+
+/* Logo */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+/* Menu w headerze */
+.menu {
+    display: flex;
+    gap: 20px; /* zmniejsz, jeśli trzeba */
+    flex-wrap: wrap; /* kluczowe: pozwala przy mniejszych ekranach przenosić guziki w dół */
+    justify-content: center;
+  
+}
+
+.menu button {
+    padding: 18px 28px;
+    border: none;
+    border-radius: 5px;
+    background: #ddd;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    transition: 0.2s;
+}
+
+.menu button:hover {
+    background: #ccc;
+}
+
+/* Settings po prawej */
+.settings {
+    font-size: 1.5rem;
+    cursor: pointer;
+}

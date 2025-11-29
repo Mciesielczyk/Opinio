@@ -12,3 +12,14 @@ loginForm.addEventListener('submit', function(e) {
         loginForm.submit();
     }, 3000); // 3s = czas animacji
 });
+
+
+const password = document.getElementById("password");
+const toggle = document.getElementById("togglePassword");
+
+toggle.addEventListener("click", () => {
+    const isPassword = password.type === "password";
+    password.type = isPassword ? "text" : "password";
+
+    toggle.textContent = isPassword ? "🙈" : "👁️";
+});

@@ -9,7 +9,7 @@
 <body>
     <form id="register-form" action="/register" method="POST">
 
-        <h1 id="title">REGISTER AS A NEW USER</h1>
+        <h1 id="title">REJESTRACJA</h1>
         
         <?php if(isset($message) && $message !== ''): ?>
             <p class="message"><?= htmlspecialchars($message) ?></p>
@@ -26,6 +26,9 @@
         <input name="lastname" type="text" placeholder="Podaj naziwsko">
 
         <button type="submit">REGISTER</button>
+
+         <!-- link do rejestracji -->
+        <a href="/login">Logowanie</a>
     </form>
         <script src="public/scripts/walidation.js"></script>
 

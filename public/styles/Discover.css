@@ -1,0 +1,145 @@
+
+
+.discover-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.card {
+    width: 300px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-image {
+    width: 100%;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+}
+
+.card-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.card-profile img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.profile-location {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.card-description {
+    padding: 0 15px 15px 15px;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+.compatibility {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 15px;
+}
+
+.compatibility-bar {
+    flex: 1;
+    height: 10px;
+    background: #eee;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.compatibility-fill {
+    height: 100%;
+    background: #4a90e2;
+}
+
+.compatibility-percent {
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Przycisk do akcji */
+.card-buttons {
+    display: flex;
+    gap: 15px;
+    padding: 15px 20px 15px;
+}
+
+.card-buttons button {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.2s;
+}
+
+.card-buttons .reject {
+    background: #ff4d4d;
+    color: #fff;
+}
+
+.card-buttons .maybe {
+    background: #ffc107;
+    color: #fff;
+}
+
+.card-buttons .accept {
+    background: #4a90e2;
+    color: #fff;
+}
+
+.card-buttons button:hover {
+    transform: scale(1.05);
+}
+
+
+.fade-bottom {
+
+    overflow: hidden;
+
+    /* opcjonalnie tło dla testu */
+   
+  
+width: 100%; /* Ustaw szerokość na 100% szerokości elementu .card (czyli 350px) */
+    height: 300px;
+    /* efekt zanikania dolnej części */
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: cover;
+
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+    mask-repeat: no-repeat;
+    mask-size: cover;
+}

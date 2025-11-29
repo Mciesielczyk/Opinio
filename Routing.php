@@ -1,6 +1,9 @@
 <?php
 require_once 'src/controllers/SecurityController.php';
 require_once 'src/controllers/DashboardController.php';
+require_once 'src/controllers/QuestionsController.php';
+require_once 'src/controllers/FriendsController.php';
+require_once 'src/controllers/DiscoverController.php';
 
 class Routing {
 
@@ -17,6 +20,18 @@ class Routing {
             'controller' => 'DashboardController',
             'action' => 'index'
         ],
+        'questions' => [
+            'controller' => 'QuestionsController',
+            'action' => 'questions'
+        ],
+        'friends' => [
+            'controller' => 'FriendsController',
+            'action' => 'friends'
+        ],
+        'discover' => [
+            'controller' => 'DiscoverController',
+            'action' => 'discover'
+        ]
     ];
 
 
@@ -26,6 +41,9 @@ class Routing {
             case 'dashboard': //fallthrough nie ma breaka wiec przechodzi do nastepnego case'a
             case 'login':
             case 'register':
+            case 'questions':
+            case 'friends':
+            case 'discover':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

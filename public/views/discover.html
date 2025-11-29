@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odkrywaj</title>
+           <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+
+        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
+</head>
+<body>
+    <?php include 'header.php'; ?>
+
+     <div class="message">
+        Odkrywaj
+    </div>
+
+    <div class="discover-container">
+        <div class="card">
+            <div class="fade-bottom" style="background-image: url('https://picsum.photos/400/500?random=10');"></div>
+            <div class="card-profile">
+                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Profilowe">
+                <div class="profile-info">
+                    <span class="profile-name">Emily Davis, 26</span>
+                    <span class="profile-location">Warszawa</span>
+                </div>
+            </div>
+            <div class="card-description">
+                Interesuję się podróżami, muzyką i sportem. Szukam kogoś do wspólnych przygód.
+            </div>
+            <div class="compatibility">
+                <div class="compatibility-bar">
+                    <div class="compatibility-fill" style="width: 78%;"></div>
+                </div>
+                <div class="compatibility-percent">78%</div>
+            </div>
+        </div>
+
+        <div class="card-buttons">
+            <button class="reject">Nie</button>
+            <button class="maybe">Może</button>
+            <button class="accept">Bardzo tak</button>
+        </div>
+    </div>
+</body>
+</html>
