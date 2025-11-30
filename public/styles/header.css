@@ -45,7 +45,39 @@ header {
 }
 
 /* Settings po prawej */
-.settings {
+.icons {
     font-size: 1.5rem;
     cursor: pointer;
+}
+
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown li {
+    padding: 8px 12px;
+}
+
+.dropdown li:hover {
+    background-color: #eee;
+}
+
+
+button.settings {
+    background: none;       /* usuwa tło */
+    border: none;           /* usuwa obramówkę */
+    padding: 0;             /* usuwa padding, jeśli chcesz dopasować do ikony */
+    cursor: pointer;        /* zmienia kursor na wskazujący */
+    font-size: 24px;        /* rozmiar ikony */
+}
+
+button.settings:hover {
+    opacity: 0.8;           /* lekki efekt hover */
 }

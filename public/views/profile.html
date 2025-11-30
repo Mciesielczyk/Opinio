@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil</title>
+    <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+
+
+</head>
+<body>
+
+    <?php include 'header.php'; ?>
+
+
+    <div class="message">
+        Profil
+    </div>
+
+
+    
+   <div class="profile-container">
+    <h2>Profil użytkownika</h2>
+    
+    <div class="profile-field">
+        <label>Imię:</label>
+        <span><?= htmlspecialchars($user['name']); ?></span>
+    </div>
+
+    <div class="profile-field">
+        <label>Nazwisko:</label>
+        <span><?= htmlspecialchars($user['surname']); ?></span>
+    </div>
+
+    <div class="profile-field">
+        <label>Email:</label>
+        <span><?= htmlspecialchars($user['email']); ?></span>
+    </div>
+</div>
+
+</body>
+</html>

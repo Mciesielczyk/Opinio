@@ -4,6 +4,7 @@ require_once 'src/controllers/DashboardController.php';
 require_once 'src/controllers/QuestionsController.php';
 require_once 'src/controllers/FriendsController.php';
 require_once 'src/controllers/DiscoverController.php';
+require_once 'src/controllers/ProfileController.php';
 
 class Routing {
 
@@ -31,6 +32,10 @@ class Routing {
         'discover' => [
             'controller' => 'DiscoverController',
             'action' => 'discover'
+        ],
+        'profile' => [
+            'controller' => 'ProfileController',
+            'action' => 'profile'
         ]
     ];
 
@@ -44,6 +49,7 @@ class Routing {
             case 'questions':
             case 'friends':
             case 'discover':
+            case 'profile':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

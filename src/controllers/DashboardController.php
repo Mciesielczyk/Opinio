@@ -2,6 +2,7 @@
 
 require_once 'AppController.php';
 require_once __DIR__.'/../repository/UserRepository.php';
+require_once __DIR__.'/../helpers/auth.php';
 
 class DashboardController extends AppController {
 
@@ -47,7 +48,12 @@ class DashboardController extends AppController {
         //$userRepository = new UserRepository();
        // $users = $userRepository->getUser();
         //var_dump($users);
-        
+      
+
+        // ciasteczko istnieje → użytkownik jest zalogowany
+        $user = checkLogin();
+        echo "Witaj, " .$user;
+
         return $this->render("dashboard", ['cards' => $cards]);
     }
 }

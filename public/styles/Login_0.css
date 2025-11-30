@@ -95,11 +95,18 @@
         }
 
         /* === MESSAGE === */
-        .message {
-            text-align: center;
-            color: #ffdddd;
-            font-weight: 600;
-        }
+.message {
+    position: fixed;   /* przyczepione do ekranu */
+    top: 0;            /* od góry */
+    left: 0;           /* od lewej krawędzi */
+    width: 100%;       /* na całą szerokość */
+    padding: 10px;
+    background-color: #f44336; /* czerwony dla błędu */
+    color: white;
+    text-align: center;
+    z-index: 1000;     /* żeby był nad resztą strony */
+}
+
  
 
 

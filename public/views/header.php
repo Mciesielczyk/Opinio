@@ -8,6 +8,18 @@
        
     </div>
 
-    <div class="settings">⚙️</div>
+    <div class="icons">
+    <div class="settings-wrapper">
+        <button id="settingsBtn" class="settings">⚙️</button>
+        <ul id="settingsDropdown" class="dropdown">
+            <li><a href="/logout">Wyloguj</a></li>
+            <li><a href="/change-theme">Zmień tło</a></li>
+        </ul>
+    </div>
+    <a href="/profile" class="profile">👤</a>
+</div>
+
+<script src="/public/scripts/header.js"></script>
+
 </header>
 
