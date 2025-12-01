@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+
+
+</head>
+<body>
+
+    <?php include 'header.php'; ?>
+
+
+    <div class="message">
+        Pytania
+    </div>
+
+    <h1><?= htmlspecialchars($survey['title']) ?></h1>
+
+<div class="question-container">
+    <?php foreach ($questions as $index => $q): ?>
+        <div class="question" data-index="<?= $index ?>" style="<?= $index === 0 ? '' : 'display:none;' ?>">
+            <p><?= htmlspecialchars($q['question_text']) ?></p>
+           <div class="options">
+              <?php for($i=1; $i<=5; $i++): ?>
+                <label class="option-label">
+                    <input type="radio" name="answer<?= $index ?>" value="<?= $i ?>" style="display:none;">
+                    <?= $i ?>
+                </label>
+             <?php endfor; ?>
+          </div>
+
+        </div>
+    <?php endforeach; ?>
+    
+    <div class="navigation">
+        <button id="prevBtn">⬅️ Poprzednie</button>
+        <button id="nextBtn">➡️ Następne</button>
+    </div>
+</div>
+
+<script src="/public/scripts/hop.js"></script>
+
+
+</body>
+</html>

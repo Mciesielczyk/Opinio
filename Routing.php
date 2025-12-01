@@ -36,7 +36,16 @@ class Routing {
         'profile' => [
             'controller' => 'ProfileController',
             'action' => 'profile'
+        ],
+        'survey' => [
+        'controller' => 'QuestionsController',
+        'action' => 'view'
+        ],
+        'logout' => [
+        'controller' => 'SecurityController',
+        'action' => 'logout'
         ]
+
     ];
 
 
@@ -50,6 +59,8 @@ class Routing {
             case 'friends':
             case 'discover':
             case 'profile':
+            case 'survey':
+            case 'logout':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

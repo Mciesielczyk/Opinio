@@ -94,4 +94,11 @@ class SecurityController extends AppController
 
         return $this->render("login", ["message" => "Zarejestrowano uytkownika ".$email]);
     }
+
+    public function logout() {
+        setcookie("username", "", time() - 3600, '/');//usuniecie ciasteczka
+
+        $url = "http://$_SERVER[HTTP_HOST]";//przekierowanie na strone logowania
+        header("Location: {$url}/login");
+    }
 }

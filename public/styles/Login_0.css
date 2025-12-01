@@ -96,18 +96,11 @@
 
         /* === MESSAGE === */
 .message {
-    position: fixed;   /* przyczepione do ekranu */
-    top: 0;            /* od góry */
-    left: 0;           /* od lewej krawędzi */
-    width: 100%;       /* na całą szerokość */
-    padding: 10px;
-    background-color: #f44336; /* czerwony dla błędu */
-    color: white;
+  
+    color: rgba(255, 0, 0, 0.764);
     text-align: center;
-    z-index: 1000;     /* żeby był nad resztą strony */
 }
 
- 
 
 
 
@@ -121,7 +114,7 @@ body.animate-background::before {
 }
 
         /* pseudo-element z gradientem w tle */
-body::before {
+body::before_notused {
     content: "";
     position: absolute;
     top: -50%;
