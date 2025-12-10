@@ -5,6 +5,26 @@ require_once 'Repository.php';
 class UserRepository extends Repository
 {
 
+    private static ?UserRepository $instance = null;
+
+    // 2. Prywatny konstruktor - blokuje użycie "new UserRepository()" z zewnątrz
+    private function __construct()
+    {
+        // Wywołujemy konstruktor rodzica (Repository), żeby nawiązać połączenie z bazą
+        // WAŻNE: Klasa Repository NIE powinna być Singletonem, jeśli dziedziczysz w ten sposób.
+        // Powinna być zwykłą klasą ustawiającą $this->database.
+        parent::__construct(); 
+    }
+
+    // 3. Metoda dostępowa (Singleton)
+    public static function getInstance(): UserRepository
+    {
+        if (self::$instance === null) {
+            self::$instance = new UserRepository();
+        }
+        return self::$instance;
+    }
+    
     public function getUser(): ?array
     {
         $stmt = $this->database->connect()->prepare('

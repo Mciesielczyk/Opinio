@@ -1,15 +1,20 @@
 const form = document.querySelector('#register-form');
+const pass = document.getElementById('password');
+const confirm = document.getElementById('confirm_password');
+const msg = document.getElementById('pass_msg');
 
-form.addEventListener('submit', function(e) {
-    const email = form.querySelector('input[name="email"]').value;
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(email)) {
-        e.preventDefault(); // zatrzymanie wysłania formularza
-        const msg = document.querySelector('.message');
-        msg.textContent = 'Podaj poprawny email!';
-        msg.style.color = '#ff4444';
-        msg.style.fontWeight = '700';
-        return;
+function validatePassword() {
+    if (pass.value.length < 8) {
+        msg.textContent = "Hasło musi mieć min. 8 znaków";
+        return false;
     }
-});
+    if (pass.value !== confirm.value) {
+        msg.textContent = "Hasła nie są takie same";
+        return false;
+    }
+    msg.textContent = "";
+    return true;
+}
+
+pass.addEventListener('input', validatePassword);
+confirm.addEventListener('input', validatePassword);

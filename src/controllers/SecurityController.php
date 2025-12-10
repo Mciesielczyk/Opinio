@@ -12,7 +12,7 @@ class SecurityController extends AppController
     public function __construct() 
     {
         //parent::__construct();//wywolanie konstruktora klasy bazowej
-         $this->userRepository = new UserRepository();
+         $this->userRepository = UserRepository::getInstance();
     }
 
     public function login()
@@ -28,6 +28,8 @@ class SecurityController extends AppController
         $email = $_POST["email"] ?? '';
         $password = $_POST["password"] ?? '';
 
+     
+
         if (empty($email) || empty($password)) { //sprawdzamy czy pola nie sa puste
         return $this->render('login', ['message' => 'Fill all fields']);
         }
@@ -39,13 +41,13 @@ class SecurityController extends AppController
 //die();
 
         if (!$userRow) {//nie znaleziono uzytkownika
-            return $this->render('login', ['message' => 'User not found']);
+            return $this->render('login', ['message' => 'Email lub hasło niepoprawne']);
         }
 //var_dump(strlen($password), strlen($userRow['password']));
 //var_dump($userRow['password']);
 
         if (!password_verify($password, $userRow['password'])) {//sprawdzamy haslo
-            return $this->render('login', ['message' => 'Wrong password']);
+            return $this->render('login', ['message' => 'Email lub hasło niepoprawne']);
         }
 
         // TODO możemy przechowywać sesje użytkowika lub token
@@ -65,6 +67,7 @@ class SecurityController extends AppController
         if ($this->isGet()) {
             return $this->render("register");
         }
+        
 
         $email = $_POST["email"] ?? '';
         $password1 = $_POST["password1"] ?? '';
@@ -72,7 +75,9 @@ class SecurityController extends AppController
         $name = $_POST["name"] ?? '';
         $surname = $_POST["surname"] ?? '';
       
-
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return $this->render('register', ['message' => 'Invalid email format']);
+        }
         if (empty($email) || empty($password1) || empty($name) || empty($surname)) {
             return $this->render('register', ['message' => 'Fill all fields']);
         }
@@ -84,7 +89,10 @@ class SecurityController extends AppController
 
 
         $hashPassword = password_hash($password1, PASSWORD_BCRYPT);
-      
+
+        if ($this->userRepository->getUserByEmail($email)) {
+            return $this->render('register', ['message' => 'Uzytkownik o podanym emailu może juz istniec']);
+        }
         $this->userRepository->createUser(
             $name,
             $surname,
