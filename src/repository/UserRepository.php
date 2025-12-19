@@ -56,7 +56,7 @@ class UserRepository extends Repository
     public function getUserByEmail(string $email): ?array
     {
         $stmt = $this->database->connect()->prepare('
-            SELECT * FROM users WHERE email = :email
+            SELECT * FROM users WHERE email = :email LIMIT 1;
         ');
         $stmt->bindParam(':email', $email);
         $stmt->execute();
@@ -65,4 +65,57 @@ class UserRepository extends Repository
 
         return $user ? $user : null;
     }
+
+    public function getUserScores(int $userId) {
+        $stmt = $this->database->connect()->prepare("
+            SELECT score_lewa_prawa,
+                score_wladza_wolnosc,
+                score_postep_konserwa,
+                score_globalizm_nacjonalizm,
+                calculated_at
+            FROM user_scores
+            WHERE user_id = :user_id
+            ORDER BY calculated_at DESC
+        ");
+        $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // zwróci tablicę wyników
+    }
+
+
+    public function upsertUserScore(
+    int $userId,
+    int $scoreLewaPrawa,
+    int $scoreWladzaWolnosc,
+    int $scorePostepKonserwa,
+    int $scoreGlobalizmNacjonalizm
+    ) {
+    $stmt = $this->database->connect()->prepare("
+        INSERT INTO user_scores (
+            user_id,
+            score_lewa_prawa,
+            score_wladza_wolnosc,
+            score_postep_konserwa,
+            score_globalizm_nacjonalizm,
+            calculated_at
+        )
+        VALUES (:user_id, :slp, :sw, :spk, :sg, NOW())
+        ON CONFLICT (user_id) DO UPDATE SET
+            score_lewa_prawa = EXCLUDED.score_lewa_prawa,
+            score_wladza_wolnosc = EXCLUDED.score_wladza_wolnosc,
+            score_postep_konserwa = EXCLUDED.score_postep_konserwa,
+            score_globalizm_nacjonalizm = EXCLUDED.score_globalizm_nacjonalizm,
+            calculated_at = NOW()
+    ");
+
+    $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
+    $stmt->bindValue(':slp', $scoreLewaPrawa, PDO::PARAM_INT);
+    $stmt->bindValue(':sw', $scoreWladzaWolnosc, PDO::PARAM_INT);
+    $stmt->bindValue(':spk', $scorePostepKonserwa, PDO::PARAM_INT);
+    $stmt->bindValue(':sg', $scoreGlobalizmNacjonalizm, PDO::PARAM_INT);
+
+    return $stmt->execute();
+}
+
+
 } 

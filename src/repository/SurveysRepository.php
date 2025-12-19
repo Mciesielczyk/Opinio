@@ -52,4 +52,19 @@ class SurveysRepository extends Repository
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
     
+    // w SurveysRepository.php
+public function saveUserAnswers(int $userId, array $answers): void {
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO user_answers (user_id, question_id, answer_value, created_at)
+        VALUES (:user_id, :question_id, :answer_value, NOW())
+    ');
+
+    foreach ($answers as $a) {
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->bindParam(':question_id', $a['question_id']);
+        $stmt->bindParam(':answer_value', $a['value']);
+        $stmt->execute();
+    }
+}
+
 } 

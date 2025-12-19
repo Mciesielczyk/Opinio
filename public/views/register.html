@@ -17,6 +17,7 @@
     <?php endif; ?>
        
 
+        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
 
         <input name="email"  placeholder="Podaj email">
         <input name="password1" type="password"  id="password" placeholder="Podaj hasło">
@@ -32,7 +33,7 @@
     </form>
         
 
-    <script src="/public/scripts/walidation.js"></script>
+    <script src="public/scripts/validationV2.js" defer></script>
 
 </body>
 </html>

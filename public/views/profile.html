@@ -37,6 +37,35 @@
         <label>Email:</label>
         <span><?= htmlspecialchars($user['email']); ?></span>
     </div>
+
+      <?php if (!empty($scores)): ?>
+        <h3>Wyniki użytkownika</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Lewo–Prawo</th>
+                    <th>Władza–Wolność</th>
+                    <th>Postęp–Konserwa</th>
+                    <th>Globalizm–Nacjonalizm</th>
+                    <th>Data obliczenia</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($scores as $score): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($score['score_lewa_prawa']); ?></td>
+                        <td><?= htmlspecialchars($score['score_wladza_wolnosc']); ?></td>
+                        <td><?= htmlspecialchars($score['score_postep_konserwa']); ?></td>
+                        <td><?= htmlspecialchars($score['score_globalizm_nacjonalizm']); ?></td>
+                        <td><?= htmlspecialchars($score['calculated_at']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p>Brak wyników.</p>
+    <?php endif; ?>
+    
 </div>
 
 </body>

@@ -6,7 +6,9 @@ services:
       context: .
       dockerfile: docker/nginx/Dockerfile
     ports:
-      - "8081:80"
+     - "8081:80"   # obecny HTTP
+     - "8443:443"  # dodaj HTTPS dla localhost
+
     volumes:
       - .:/app/
     links:

@@ -6,8 +6,8 @@ require_once __DIR__.'/../helpers/auth.php';
 class FriendsController extends AppController  {
 
     public function friends() {
-        $user = checkLogin();
-        echo "Witaj, " .$user;
+        $this->requireLogin();
+
         return $this->render("friends");
         }
     

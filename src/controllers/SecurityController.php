@@ -52,8 +52,12 @@ class SecurityController extends AppController
 
         // TODO możemy przechowywać sesje użytkowika lub token
          setcookie("username", $userRow['email'], time() + 3600, '/');
+         
+        session_start(); // uruchom sesję jeśli jeszcze nie uruchomiona
+        $_SESSION['user_id'] = $userRow['id']; // ID użytkownika
+        $_SESSION['username'] = $userRow['email']; // opcjonalnie e-mail
 
-        $url = "http://$_SERVER[HTTP_HOST]";//przekierowanie na dashboard
+        $url = "https://$_SERVER[HTTP_HOST]";//przekierowanie na dashboard
         header("Location: {$url}/dashboard");
     }
 
@@ -63,6 +67,14 @@ class SecurityController extends AppController
         // TODO pobranie z formularza email i hasła
         // TODO insert do bazy danych
         // TODO zwrocenie informajci o pomyslnym zarejstrowaniu
+        
+        
+
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+        }
+
+        $csrf_token = $_SESSION['csrf_token'];
 
         if ($this->isGet()) {
             return $this->render("register");
@@ -104,9 +116,29 @@ class SecurityController extends AppController
     }
 
     public function logout() {
-        setcookie("username", "", time() - 3600, '/');//usuniecie ciasteczka
+        // Startujemy sesję jeśli jeszcze nie startowana
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
-        $url = "http://$_SERVER[HTTP_HOST]";//przekierowanie na strone logowania
-        header("Location: {$url}/login");
+        // Czyszczenie wszystkich zmiennych sesji
+        $_SESSION = [];
+
+        // Niszczymy ciasteczko sesyjne
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
+        }
+
+        // Niszczymy sesję na serwerze
+        session_destroy();
+
+        // Przekierowanie na stronę logowania
+        header("Location: /login");
+        exit;
     }
+
 }

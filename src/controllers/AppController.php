@@ -34,4 +34,19 @@ class AppController { //kalsa bazowa dla kontrolerow
         echo $output;
     }
 
+    
+    protected function isLoggedIn(): bool {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return isset($_SESSION['user_id']);
+    }
+
+    protected function requireLogin() {
+        if (!$this->isLoggedIn()) {
+            header("Location: /login");
+            exit;
+        }
+    }
+
 }

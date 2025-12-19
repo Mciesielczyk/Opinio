@@ -20,27 +20,34 @@
 
     <h1><?= htmlspecialchars($survey['title']) ?></h1>
 
-<div class="question-container">
-    <?php foreach ($questions as $index => $q): ?>
-        <div class="question" data-index="<?= $index ?>" style="<?= $index === 0 ? '' : 'display:none;' ?>">
-            <p><?= htmlspecialchars($q['question_text']) ?></p>
-           <div class="options">
-              <?php for($i=1; $i<=5; $i++): ?>
-                <label class="option-label">
-                    <input type="radio" name="answer<?= $index ?>" value="<?= $i ?>" style="display:none;">
-                    <?= $i ?>
-                </label>
-             <?php endfor; ?>
-          </div>
+<form id="surveyForm">
+    <div class="question-container">
+        <?php foreach ($questions as $index => $q): ?>
+            <div class="question">
+                <p><?= htmlspecialchars($q['question_text']) ?></p>
 
-        </div>
-    <?php endforeach; ?>
-    
-    <div class="navigation">
-        <button id="prevBtn">⬅️ Poprzednie</button>
-        <button id="nextBtn">➡️ Następne</button>
+                <div class="options">
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                        <label class="option-label">
+                            <input type="radio"
+                                   name="answer<?= $q['id'] ?>"
+                                   value="<?= $i ?>"
+                                   style="display:none;">
+                            <?= $i ?>
+                        </label>
+                    <?php endfor; ?>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-</div>
+
+    <div class="navigation">
+        <button type="button" id="prevBtn">⬅️ Poprzednie</button>
+        <button type="button" id="nextBtn">➡️ Następne</button>
+        <button type="submit" id="submitBtn">✅ Wyślij ankietę</button>
+    </div>
+</form>
+
 
 <script src="/public/scripts/hop.js"></script>
 

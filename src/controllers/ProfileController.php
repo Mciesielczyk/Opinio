@@ -8,7 +8,7 @@ class ProfileController extends AppController  {
     private $userRepository;
 
     public function __construct() {
-        $this->userRepository = new UserRepository();
+                 $this->userRepository = UserRepository::getInstance();
     }
 
     public function profile() {
@@ -17,11 +17,13 @@ class ProfileController extends AppController  {
         }
 
     public function showProfile(){
+        $this->requireLogin();
         $userEmail = checkLogin();
-
-
         $user = $this->userRepository->getUserByEmail($userEmail);
-        return $this->render("profile", ['user' => $user]);
+       
+        $scores = $this->userRepository->getUserScores($user['id']);
+
+        return $this->render("profile", ['user' => $user , 'scores' => $scores]);
     }
     
 

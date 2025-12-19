@@ -161,3 +161,9 @@ body::before_notused {
     user-select: none;
     font-size: 18px;
 }
+
+
+.no-valid {
+    border: 2px solid red;
+    background-color: #ffe5e5;
+}

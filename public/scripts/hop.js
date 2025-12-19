@@ -23,6 +23,7 @@ document.getElementById('prevBtn').addEventListener('click', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    showQuestion(current);
     const questionContainers = document.querySelectorAll('.question');
 
     questionContainers.forEach(question => {
@@ -32,13 +33,32 @@ document.addEventListener('DOMContentLoaded', () => {
             const input = label.querySelector('input[type="radio"]');
 
             label.addEventListener('click', () => {
-                // zaznacz wybraną opcję
                 labels.forEach(l => l.classList.remove('selected'));
                 label.classList.add('selected');
-
-                // ustaw radio na checked (potrzebne przy submit)
                 input.checked = true;
             });
         });
+    });
+
+    // Zbieranie odpowiedzi i wysyłanie do PHP
+    document.getElementById('surveyForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // blokuje reload strony
+
+        const answers = {};
+        const checkedInputs = document.querySelectorAll('input[type=radio]:checked');
+
+        checkedInputs.forEach(input => {
+            answers[input.name] = parseInt(input.value);
+        });
+
+        fetch('/saveSurvey', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ answers })
+})
+.then(res => res.text())  // najpierw jako tekst
+.then(data => console.log(data))  // zobacz co faktycznie wraca
+.catch(err => console.error(err));
+
     });
 });

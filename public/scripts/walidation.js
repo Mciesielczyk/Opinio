@@ -18,3 +18,9 @@ function validatePassword() {
 
 pass.addEventListener('input', validatePassword);
 confirm.addEventListener('input', validatePassword);
+
+form.addEventListener('submit', function(e) {
+    if (!validatePassword()) {
+        e.preventDefault(); // blokuje wysyłkę formularza
+    }
+});

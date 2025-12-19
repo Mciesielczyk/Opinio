@@ -44,7 +44,12 @@ class Routing {
         'logout' => [
         'controller' => 'SecurityController',
         'action' => 'logout'
-        ]
+        ],
+        'saveSurvey' => [
+        'controller' => 'QuestionsController',
+        'action' => 'saveSurvey'
+        ],
+
 
     ];
 
@@ -61,6 +66,7 @@ class Routing {
             case 'profile':
             case 'survey':
             case 'logout':
+            case 'saveSurvey':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 
