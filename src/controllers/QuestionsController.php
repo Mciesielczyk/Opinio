@@ -51,23 +51,26 @@ public function saveSurvey() {
     $answers = $data['answers'];
 
     // pobieramy id użytkownika
-    $userId = $_SESSION['user_id'];
-
+    $userId = $_SESSION['user_id'] ?? null; 
+    if (!$userId) {
+        echo json_encode(['status' => 'error', 'message' => 'Niezalogowany']);
+        exit;
+    }
     // inicjalizacja wyników dla osi
-    $scoreLewaPrawa = 1;
-    $scoreWladzaWolnosc = 2;
+    $scoreLewaPrawa = 0;
+    $scoreWladzaWolnosc = 0;
     $scorePostepKonserwa = 0;
-    $scoreGlobalizmNacjonalizm = 4;
+    $scoreGlobalizmNacjonalizm = 0;
 
     // iterujemy po odpowiedziach
     foreach ($answers as $questionName => $value) {
         // w prostym wariancie dodajemy każdą odpowiedź do każdej osi
-        $scoreLewaPrawa += $value;
-        $scoreWladzaWolnosc += $value;
-        $scorePostepKonserwa += $value;
-        $scoreGlobalizmNacjonalizm += $value;
+        $scoreLewaPrawa += (int)$value;
+        $scoreWladzaWolnosc += (int)$value;
+        $scorePostepKonserwa += (int)$value;
+        $scoreGlobalizmNacjonalizm += (int)$value;
     }
-var_dump($scoreLewaPrawa, $scoreWladzaWolnosc, $scorePostepKonserwa, $scoreGlobalizmNacjonalizm);
+//var_dump($scoreLewaPrawa, $scoreWladzaWolnosc, $scorePostepKonserwa, $scoreGlobalizmNacjonalizm);
 
     // zapis do bazy 1:1 dla użytkownika
     $this->userRepository->upsertUserScore(

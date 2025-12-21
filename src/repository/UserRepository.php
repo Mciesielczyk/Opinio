@@ -90,23 +90,23 @@ class UserRepository extends Repository
     int $scorePostepKonserwa,
     int $scoreGlobalizmNacjonalizm
     ) {
-    $stmt = $this->database->connect()->prepare("
-        INSERT INTO user_scores (
-            user_id,
-            score_lewa_prawa,
-            score_wladza_wolnosc,
-            score_postep_konserwa,
-            score_globalizm_nacjonalizm,
-            calculated_at
-        )
-        VALUES (:user_id, :slp, :sw, :spk, :sg, NOW())
-        ON CONFLICT (user_id) DO UPDATE SET
-            score_lewa_prawa = EXCLUDED.score_lewa_prawa,
-            score_wladza_wolnosc = EXCLUDED.score_wladza_wolnosc,
-            score_postep_konserwa = EXCLUDED.score_postep_konserwa,
-            score_globalizm_nacjonalizm = EXCLUDED.score_globalizm_nacjonalizm,
-            calculated_at = NOW()
-    ");
+        $stmt = $this->database->connect()->prepare("
+            INSERT INTO user_scores (
+                user_id,
+                score_lewa_prawa,
+                score_wladza_wolnosc,
+                score_postep_konserwa,
+                score_globalizm_nacjonalizm,
+                calculated_at
+            )
+            VALUES (:user_id, :slp, :sw, :spk, :sg, NOW())
+            ON CONFLICT (user_id) DO UPDATE SET
+                score_lewa_prawa = user_scores.score_lewa_prawa + EXCLUDED.score_lewa_prawa,
+                score_wladza_wolnosc = user_scores.score_wladza_wolnosc + EXCLUDED.score_wladza_wolnosc,
+                score_postep_konserwa = user_scores.score_postep_konserwa + EXCLUDED.score_postep_konserwa,
+                score_globalizm_nacjonalizm = user_scores.score_globalizm_nacjonalizm + EXCLUDED.score_globalizm_nacjonalizm,
+                calculated_at = NOW()
+        ");
 
     $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
     $stmt->bindValue(':slp', $scoreLewaPrawa, PDO::PARAM_INT);

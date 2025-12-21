@@ -85,22 +85,77 @@ h1 {
     margin: 0 auto;
 }
 
+/* Kontener całego formularza */
+#surveyForm {
+    max-width: 700px;         /* Ramka nie na całą szerokość */
+    margin: 50px auto;        /* Wyśrodkowanie na stronie */
+    padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Karta pojedynczego pytania */
 .question {
-    background: #f7f7f7;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    font-size: 2rem;
+    background: #fff;
+    border: 2px solid #f0f0f0;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    text-align: center;       /* Środkowanie treści */
+}
 
+/* Tekst pytania na górze - Duża czcionka */
+.question p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 35px;
+    line-height: 1.3;
+}
 
-
-      height: 250px;         /* stała wysokość okna pytania */
+/* Kontener na odpowiedzi - Układ poziomy */
+.question .options-container {
     display: flex;
-    flex-direction: column;
-    justify-content: center; /* treść wyśrodkowana pionowo */
-    overflow-y: auto;  
-} 
+    flex-direction: row;      /* Od lewej do prawej */
+    justify-content: center;  /* Środkowanie kółek */
+    gap: 15px;                /* Odstępy między kółkami */
+}
+
+/* Stylizacja Labeli (zamiast brzydkich radio) */
+.question label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #dcdde1;
+    border-radius: 50%;       /* Idealne kółko */
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+/* Ukrycie domyślnej kropki input radio */
+.question input[type="radio"] {
+    display: none;
+}
+
+/* Efekt po najechaniu myszką */
+.question label:hover {
+    border-color: #3498db;
+    background-color: #f7f9fc;
+    color: #3498db;
+}
+
+/* Styl dla zaznaczonej odpowiedzi (dodawany przez JS) */
+.question label.selected {
+    background-color: #3498db;
+    color: white;
+    border-color: #2980b9;
+    transform: scale(1.15);   /* Powiększenie zaznaczonego */
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
 
 .options {
     display: flex;
@@ -152,6 +207,27 @@ h1 {
 .option-label:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navigation {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.navigation button {
+    padding: 12px 25px;
+    font-size: 18px;
+    margin: 0 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.navigation button:hover {
+    background-color: #45a049;
 }
 /* ===== RESPONSYWNOŚĆ ===== */
 @media (max-width: 800px) {

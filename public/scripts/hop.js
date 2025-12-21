@@ -1,64 +1,117 @@
-const questions = document.querySelectorAll('.question');
-let current = 0;
-
-const showQuestion = (index) => {
-    questions.forEach((q, i) => {
-        q.style.display = i === index ? 'block' : 'none';
-    });
-};
-
-document.getElementById('nextBtn').addEventListener('click', () => {
-    if(current < questions.length - 1){
-        current++;
-        showQuestion(current);
-    }
-});
-
-document.getElementById('prevBtn').addEventListener('click', () => {
-    if(current > 0){
-        current--;
-        showQuestion(current);
-    }
-});
-
-
 document.addEventListener('DOMContentLoaded', () => {
-    showQuestion(current);
-    const questionContainers = document.querySelectorAll('.question');
 
-    questionContainers.forEach(question => {
-        const labels = question.querySelectorAll('.option-label');
+    const questions = document.querySelectorAll('.question');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
 
-        labels.forEach(label => {
-            const input = label.querySelector('input[type="radio"]');
+    let current = 0;
 
-            label.addEventListener('click', () => {
-                labels.forEach(l => l.classList.remove('selected'));
-                label.classList.add('selected');
-                input.checked = true;
-            });
+    // === POKAZYWANIE PYTAŃ ===
+    function showQuestion(index) {
+        questions.forEach((q, i) => {
+            q.style.display = (i === index) ? 'block' : 'none';
         });
+
+        // przyciski
+        prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
+        nextBtn.style.display = index === questions.length - 1 ? 'none' : 'inline-block';
+        submitBtn.style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+    }
+
+    showQuestion(current);
+    // === zaznaczanie wybranej opcji ===
+questions.forEach(question => {
+    const labels = question.querySelectorAll('.option-label');
+    labels.forEach(label => {
+        const input = label.querySelector('input[type="radio"]');
+
+        // przy kliknięciu na label
+        label.addEventListener('click', () => {
+            // usuń klasę .selected ze wszystkich labeli w tym pytaniu
+            labels.forEach(l => l.classList.remove('selected'));
+
+            // dodaj .selected tylko klikniętemu labelowi
+            label.classList.add('selected');
+
+            // zaznacz input (dla pewności)
+            input.checked = true;
+        });
+
+        // === przy ładowaniu, jeśli radio było wcześniej zaznaczone ===
+        if (input.checked) {
+            label.classList.add('selected');
+        }
+    });
+});
+
+
+    // === SPRAWDZANIE CZY JEST ODPOWIEDŹ ===
+    function hasAnswer(index) {
+        return questions[index].querySelector('input[type="radio"]:checked') !== null;
+    }
+
+    // === NAWIGACJA ===
+    nextBtn.addEventListener('click', () => {
+        if (!hasAnswer(current)) {
+            alert('Zaznacz odpowiedź przed przejściem dalej');
+            return;
+        }
+
+        if (current < questions.length - 1) {
+            current++;
+            showQuestion(current);
+        }
     });
 
-    // Zbieranie odpowiedzi i wysyłanie do PHP
-    document.getElementById('surveyForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // blokuje reload strony
+    prevBtn.addEventListener('click', () => {
+        if (current > 0) {
+            current--;
+            showQuestion(current);
+        }
+    });
+
+    // === WYSYŁANIE ANKIETY ===
+    submitBtn.addEventListener('click', () => {
+
+        // ostatnie pytanie też musi mieć odpowiedź
+        if (!hasAnswer(current)) {
+            alert('Zaznacz odpowiedź przed wysłaniem');
+            return;
+        }
 
         const answers = {};
-        const checkedInputs = document.querySelectorAll('input[type=radio]:checked');
 
-        checkedInputs.forEach(input => {
-            answers[input.name] = parseInt(input.value);
-        });
+        document.querySelectorAll('input[type="radio"]:checked')
+            .forEach(input => {
+                answers[input.name] = parseInt(input.value);
+            });
+
+        console.log('Wysyłane odpowiedzi:', answers);
 
         fetch('/saveSurvey', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ answers })
-})
-.then(res => res.text())  // najpierw jako tekst
-.then(data => console.log(data))  // zobacz co faktycznie wraca
-.catch(err => console.error(err));
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ answers })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Odpowiedź serwera:', data);
 
+            if (data.status === 'ok') {
+                alert('Ankieta zapisana poprawnie');
+                window.location.href = 'https://localhost:8443/questions';
+
+            } else {
+                alert('Błąd: ' + data.message);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('Błąd połączenia z serwerem');
+        });
     });
+
 });

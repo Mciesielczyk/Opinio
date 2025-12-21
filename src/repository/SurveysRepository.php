@@ -20,6 +20,7 @@ class SurveysRepository extends Repository
         // 1. Poprawny kod SQL z użyciem placeholder'a (?)
         $stmt = $this->database->connect()->prepare('
             SELECT
+                 A.id,
                 A.question_text
             FROM
                 questions AS A

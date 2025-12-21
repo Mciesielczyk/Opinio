@@ -20,33 +20,30 @@
 
     <h1><?= htmlspecialchars($survey['title']) ?></h1>
 
-<form id="surveyForm">
-    <div class="question-container">
-        <?php foreach ($questions as $index => $q): ?>
+    <form id="surveyForm">
+        <?php foreach ($questions as $q): ?>
             <div class="question">
                 <p><?= htmlspecialchars($q['question_text']) ?></p>
 
-                <div class="options">
-                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                <div class="options-container"> <?php for ($i = 1; $i <= 5; $i++): ?>
                         <label class="option-label">
-                            <input type="radio"
-                                   name="answer<?= $q['id'] ?>"
-                                   value="<?= $i ?>"
-                                   style="display:none;">
+                            <input type="radio" 
+                                name="answer<?= $q['id'] ?>" 
+                                value="<?= $i ?>">
                             <?= $i ?>
                         </label>
                     <?php endfor; ?>
                 </div>
             </div>
         <?php endforeach; ?>
-    </div>
+    </form>
 
-    <div class="navigation">
-        <button type="button" id="prevBtn">⬅️ Poprzednie</button>
-        <button type="button" id="nextBtn">➡️ Następne</button>
-        <button type="submit" id="submitBtn">✅ Wyślij ankietę</button>
-    </div>
-</form>
+<div class="navigation">
+    <button type="button" id="prevBtn">⬅️ Poprzednie</button>
+    <button type="button" id="nextBtn">➡️ Następne</button>
+    <button type="button" id="submitBtn">✅ Wyślij ankietę</button>
+</div>
+
 
 
 <script src="/public/scripts/hop.js"></script>
