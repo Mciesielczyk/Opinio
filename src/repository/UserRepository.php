@@ -79,43 +79,51 @@ class UserRepository extends Repository
         ");
         $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // zwróci tablicę wyników
+        return $stmt->fetch(PDO::FETCH_ASSOC); // zwróci tablicę wyników
     }
 
 
-    public function upsertUserScore(
+public function upsertUserScore(
     int $userId,
-    int $scoreLewaPrawa,
-    int $scoreWladzaWolnosc,
-    int $scorePostepKonserwa,
-    int $scoreGlobalizmNacjonalizm
-    ) {
-        $stmt = $this->database->connect()->prepare("
-            INSERT INTO user_scores (
-                user_id,
-                score_lewa_prawa,
-                score_wladza_wolnosc,
-                score_postep_konserwa,
-                score_globalizm_nacjonalizm,
-                calculated_at
-            )
-            VALUES (:user_id, :slp, :sw, :spk, :sg, NOW())
-            ON CONFLICT (user_id) DO UPDATE SET
-                score_lewa_prawa = user_scores.score_lewa_prawa + EXCLUDED.score_lewa_prawa,
-                score_wladza_wolnosc = user_scores.score_wladza_wolnosc + EXCLUDED.score_wladza_wolnosc,
-                score_postep_konserwa = user_scores.score_postep_konserwa + EXCLUDED.score_postep_konserwa,
-                score_globalizm_nacjonalizm = user_scores.score_globalizm_nacjonalizm + EXCLUDED.score_globalizm_nacjonalizm,
-                calculated_at = NOW()
-        ");
+    float $scoreLewaPrawa,
+    float $scoreWladzaWolnosc,
+    float $scorePostepKonserwa,
+    float $scoreGlobalizmNacjonalizm
+) {
+    // 1. Przygotowujemy aktualną datę i godzinę w formacie bazy danych
+date_default_timezone_set('Europe/Warsaw');
+    $currentTime = date('Y-m-d H:i:s');
+    // 2. Zamieniamy NOW() na placeholder :now w dwóch miejscach (INSERT i UPDATE)
+    $stmt = $this->database->connect()->prepare("
+        INSERT INTO user_scores (
+            user_id,
+            score_lewa_prawa,
+            score_wladza_wolnosc,
+            score_postep_konserwa,
+            score_globalizm_nacjonalizm,
+            calculated_at
+        )
+        VALUES (:user_id, :slp, :sw, :spk, :sg, :now)
+        ON CONFLICT (user_id) DO UPDATE SET
+            score_lewa_prawa = EXCLUDED.score_lewa_prawa,
+            score_wladza_wolnosc = EXCLUDED.score_wladza_wolnosc,
+            score_postep_konserwa = EXCLUDED.score_postep_konserwa,
+            score_globalizm_nacjonalizm = EXCLUDED.score_globalizm_nacjonalizm,
+            calculated_at = :now
+    ");
 
     $stmt->bindValue(':user_id', $userId, PDO::PARAM_INT);
-    $stmt->bindValue(':slp', $scoreLewaPrawa, PDO::PARAM_INT);
-    $stmt->bindValue(':sw', $scoreWladzaWolnosc, PDO::PARAM_INT);
-    $stmt->bindValue(':spk', $scorePostepKonserwa, PDO::PARAM_INT);
-    $stmt->bindValue(':sg', $scoreGlobalizmNacjonalizm, PDO::PARAM_INT);
+    
+    // Bindowanie wyników jako string (bezpieczne dla floatów z kropką)
+    $stmt->bindValue(':slp', $scoreLewaPrawa, PDO::PARAM_STR);
+    $stmt->bindValue(':sw', $scoreWladzaWolnosc, PDO::PARAM_STR);
+    $stmt->bindValue(':spk', $scorePostepKonserwa, PDO::PARAM_STR);
+    $stmt->bindValue(':sg', $scoreGlobalizmNacjonalizm, PDO::PARAM_STR);
+    
+    // 3. Bindowanie czasu
+    $stmt->bindValue(':now', $currentTime, PDO::PARAM_STR);
 
     return $stmt->execute();
 }
 
-
-} 
+}

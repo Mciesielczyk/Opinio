@@ -112,9 +112,9 @@ SET
 
 CREATE TABLE user_scores (
     user_id INTEGER PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-    score_lewa_prawa INTEGER DEFAULT 0,
-    score_wladza_wolnosc INTEGER DEFAULT 0,
-    score_postep_konserwa INTEGER DEFAULT 0,
-    score_globalizm_nacjonalizm INTEGER DEFAULT 0,
+    score_lewa_prawa DOUBLE PRECISION DEFAULT 0.0,
+    score_wladza_wolnosc DOUBLE PRECISION DEFAULT 0.0,
+    score_postep_konserwa DOUBLE PRECISION DEFAULT 0.0,
+    score_globalizm_nacjonalizm DOUBLE PRECISION DEFAULT 0.0,
     calculated_at TIMESTAMP DEFAULT NOW()
 );

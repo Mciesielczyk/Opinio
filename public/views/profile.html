@@ -51,15 +51,15 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($scores as $score): ?>
+                
                     <tr>
-                        <td><?= htmlspecialchars($score['score_lewa_prawa']); ?></td>
-                        <td><?= htmlspecialchars($score['score_wladza_wolnosc']); ?></td>
-                        <td><?= htmlspecialchars($score['score_postep_konserwa']); ?></td>
-                        <td><?= htmlspecialchars($score['score_globalizm_nacjonalizm']); ?></td>
-                        <td><?= htmlspecialchars($score['calculated_at']); ?></td>
+                        <td><?= htmlspecialchars($scores['score_lewa_prawa']); ?></td>
+                        <td><?= htmlspecialchars($scores['score_wladza_wolnosc']); ?></td>
+                        <td><?= htmlspecialchars($scores['score_postep_konserwa']); ?></td>
+                        <td><?= htmlspecialchars($scores['score_globalizm_nacjonalizm']); ?></td>
+                        <td><?= htmlspecialchars($scores['calculated_at']); ?></td>
                     </tr>
-                <?php endforeach; ?>
+               
             </tbody>
         </table>
     <?php else: ?>

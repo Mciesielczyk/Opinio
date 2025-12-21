@@ -20,7 +20,7 @@ class SurveysRepository extends Repository
         // 1. Poprawny kod SQL z użyciem placeholder'a (?)
         $stmt = $this->database->connect()->prepare('
             SELECT
-                 A.id,
+                A.id,
                 A.question_text
             FROM
                 questions AS A
@@ -41,6 +41,27 @@ class SurveysRepository extends Repository
 
         // Zwrócenie wyników lub null, jeśli nie znaleziono pytań
         return $questions ?: null;
+    }
+
+    public function getQuestionByIdAll(int $id): ?array
+    {
+        $stmt = $this->database->connect()->prepare('
+            SELECT 
+                id, 
+                question_text, 
+                score_lewa_prawa, 
+                score_wladza_wolnosc, 
+                score_postep_konserwa, 
+                score_globalizm_nacjonalizm 
+            FROM questions 
+            WHERE id = :id
+        ');
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        $question = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $question ?: null;
     }
     
 

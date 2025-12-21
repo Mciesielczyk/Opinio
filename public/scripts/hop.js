@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('✅ Skrypt hop.js załadowany');
 
     const questions = document.querySelectorAll('.question');
     const prevBtn = document.getElementById('prevBtn');
@@ -7,57 +8,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let current = 0;
 
-    // === POKAZYWANIE PYTAŃ ===
     function showQuestion(index) {
+        console.log('Pytanie:', index + 1, 'z', questions.length);
         questions.forEach((q, i) => {
             q.style.display = (i === index) ? 'block' : 'none';
         });
 
-        // przyciski
         prevBtn.style.display = index === 0 ? 'none' : 'inline-block';
         nextBtn.style.display = index === questions.length - 1 ? 'none' : 'inline-block';
         submitBtn.style.display = index === questions.length - 1 ? 'inline-block' : 'none';
     }
 
     showQuestion(current);
-    // === zaznaczanie wybranej opcji ===
-questions.forEach(question => {
-    const labels = question.querySelectorAll('.option-label');
-    labels.forEach(label => {
-        const input = label.querySelector('input[type="radio"]');
 
-        // przy kliknięciu na label
-        label.addEventListener('click', () => {
-            // usuń klasę .selected ze wszystkich labeli w tym pytaniu
-            labels.forEach(l => l.classList.remove('selected'));
+    questions.forEach((question, qIdx) => {
+        const labels = question.querySelectorAll('.option-label');
+        labels.forEach(label => {
+            const input = label.querySelector('input[type="radio"]');
 
-            // dodaj .selected tylko klikniętemu labelowi
-            label.classList.add('selected');
+            label.addEventListener('click', () => {
+                console.log(`Kliknięto pytanie ${qIdx}, wartość: ${input.value}`);
+                labels.forEach(l => l.classList.remove('selected'));
+                label.classList.add('selected');
+                input.checked = true;
+            });
 
-            // zaznacz input (dla pewności)
-            input.checked = true;
+            if (input.checked) {
+                label.classList.add('selected');
+            }
         });
+    }); // <--- Poprawiona pozycja klamry
 
-        // === przy ładowaniu, jeśli radio było wcześniej zaznaczone ===
-        if (input.checked) {
-            label.classList.add('selected');
-        }
-    });
-});
-
-
-    // === SPRAWDZANIE CZY JEST ODPOWIEDŹ ===
     function hasAnswer(index) {
-        return questions[index].querySelector('input[type="radio"]:checked') !== null;
+        const checked = questions[index].querySelector('input[type="radio"]:checked');
+        console.log(`Sprawdzanie odpowiedzi dla pytania ${index}:`, checked ? 'TAK' : 'BRAK');
+        return checked !== null;
     }
 
-    // === NAWIGACJA ===
     nextBtn.addEventListener('click', () => {
         if (!hasAnswer(current)) {
             alert('Zaznacz odpowiedź przed przejściem dalej');
             return;
         }
-
         if (current < questions.length - 1) {
             current++;
             showQuestion(current);
@@ -71,47 +63,48 @@ questions.forEach(question => {
         }
     });
 
-    // === WYSYŁANIE ANKIETY ===
     submitBtn.addEventListener('click', () => {
+        console.log('🚀 Próba wysłania ankiety...');
 
-        // ostatnie pytanie też musi mieć odpowiedź
         if (!hasAnswer(current)) {
             alert('Zaznacz odpowiedź przed wysłaniem');
             return;
         }
 
         const answers = {};
+        document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+            answers[input.name] = parseInt(input.value);
+        });
 
-        document.querySelectorAll('input[type="radio"]:checked')
-            .forEach(input => {
-                answers[input.name] = parseInt(input.value);
-            });
-
-        console.log('Wysyłane odpowiedzi:', answers);
+        console.log('Dane do wysyłki (JSON):', JSON.stringify({ answers }));
 
         fetch('/saveSurvey', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ answers })
         })
-        .then(res => res.json())
+        .then(async res => {
+            const text = await res.text();
+            console.log('Surowa odpowiedź serwera (tekst):', text);
+            try {
+                return JSON.parse(text);
+            } catch (e) {
+                console.error('Błąd parsowania JSON. Serwer zwrócił coś innego niż JSON!');
+                throw new Error("Serwer nie zwrócił poprawnego formatu JSON");
+            }
+        })
         .then(data => {
-            console.log('Odpowiedź serwera:', data);
-
+            console.log('Zinterpretowany JSON:', data);
             if (data.status === 'ok') {
                 alert('Ankieta zapisana poprawnie');
-                window.location.href = 'https://localhost:8443/questions';
-
+                window.location.href = '/questions';
             } else {
-                alert('Błąd: ' + data.message);
+                alert('Serwer zwrócił błąd: ' + data.message);
             }
         })
         .catch(err => {
-            console.error(err);
-            alert('Błąd połączenia z serwerem');
+            console.error('Błąd Fetch:', err);
+            alert('Krytyczny błąd połączenia. Sprawdź konsolę (F12).');
         });
     });
-
 });

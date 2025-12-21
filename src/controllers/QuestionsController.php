@@ -57,28 +57,44 @@ public function saveSurvey() {
         exit;
     }
     // inicjalizacja wyników dla osi
-    $scoreLewaPrawa = 0;
-    $scoreWladzaWolnosc = 0;
-    $scorePostepKonserwa = 0;
-    $scoreGlobalizmNacjonalizm = 0;
+$userScore = $this->userRepository->getUserScores($userId);
+if (!$userScore) {
+    $userScore = [
+        'score_lewa_prawa' => 0,
+        'score_wladza_wolnosc' => 0,
+        'score_postep_konserwa' => 0,
+        'score_globalizm_nacjonalizm' => 0
+    ];
+}
+
+    $scale = 0.2;
 
     // iterujemy po odpowiedziach
     foreach ($answers as $questionName => $value) {
+        
+        $questionId = (int) str_replace('answer', '', $questionName);
+        $q = $this->surveysRepository->getQuestionByIdAll($questionId);
+        error_log("111dupaaasaasaa: " . print_r($q, true));
+
+        if (!$q) continue;
+        $delta = ((int)$value - 3) / 2;
         // w prostym wariancie dodajemy każdą odpowiedź do każdej osi
-        $scoreLewaPrawa += (int)$value;
-        $scoreWladzaWolnosc += (int)$value;
-        $scorePostepKonserwa += (int)$value;
-        $scoreGlobalizmNacjonalizm += (int)$value;
+        $userScore['score_lewa_prawa']        += $q['score_lewa_prawa'] * $delta * $scale;
+        $userScore['score_wladza_wolnosc']    += $q['score_wladza_wolnosc'] * $delta * $scale;
+        $userScore['score_postep_konserwa']   += $q['score_postep_konserwa'] * $delta * $scale;
+        $userScore['score_globalizm_nacjonalizm'] += $q['score_globalizm_nacjonalizm'] * $delta * $scale;
+        error_log("dupaaaa: " . print_r($q, true));
+
     }
 //var_dump($scoreLewaPrawa, $scoreWladzaWolnosc, $scorePostepKonserwa, $scoreGlobalizmNacjonalizm);
-
+error_log("Wyniki PO PRZELICZENIU: " . print_r($userScore, true));
     // zapis do bazy 1:1 dla użytkownika
     $this->userRepository->upsertUserScore(
         $userId,
-        $scoreLewaPrawa,
-        $scoreWladzaWolnosc,
-        $scorePostepKonserwa,
-        $scoreGlobalizmNacjonalizm
+        $userScore['score_lewa_prawa'],
+        $userScore['score_wladza_wolnosc'],
+        $userScore['score_postep_konserwa'],
+        $userScore['score_globalizm_nacjonalizm']
     );
 
     echo json_encode(['status' => 'ok']);
