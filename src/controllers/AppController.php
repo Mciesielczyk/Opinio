@@ -49,4 +49,13 @@ class AppController { //kalsa bazowa dla kontrolerow
         }
     }
 
+    protected function requireAdmin() {
+    $this->requireLogin(); // Najpierw sprawdź czy zalogowany
+    
+    if ($_SESSION['user_role'] !== 'admin') {
+        // Jeśli nie admin, przekieruj na dashboard lub pokaż błąd
+        header("Location: /disvover");
+    }
+}
+
 }

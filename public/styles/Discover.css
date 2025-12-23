@@ -143,3 +143,59 @@ width: 100%; /* Ustaw szerokość na 100% szerokości elementu .card (czyli 350p
     mask-repeat: no-repeat;
     mask-size: cover;
 }
+
+
+.match-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.5s ease-in-out;
+    animation: slideDown 0.5s forwards;
+}
+
+.match-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.match-banner-content p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.match-banner-content .heart {
+    font-size: 1.5rem;
+    animation: pulse 1s infinite;
+}
+
+.match-banner-content button {
+    background: white;
+    color: #ff4b2b;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}

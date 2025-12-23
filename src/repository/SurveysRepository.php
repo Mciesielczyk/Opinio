@@ -21,7 +21,11 @@ class SurveysRepository extends Repository
         $stmt = $this->database->connect()->prepare('
             SELECT
                 A.id,
-                A.question_text
+                A.question_text,
+                A.score_lewa_prawa,
+                A.score_wladza_wolnosc,
+                A.score_postep_konserwa,
+                A.score_globalizm_nacjonalizm
             FROM
                 questions AS A
             JOIN
@@ -89,4 +93,89 @@ public function saveUserAnswers(int $userId, array $answers): void {
     }
 }
 
+
+public function addSurvey(string $title): void {
+    $stmt = $this->database->connect()->prepare('INSERT INTO surveys (title) VALUES (?)');
+    $stmt->execute([$title]);
+}
+
+public function deleteSurvey(int $id): void {
+    $stmt = $this->database->connect()->prepare('DELETE FROM surveys WHERE id = :id');
+    $stmt->execute(['id' => $id]);
+}
+
+public function addQuestion(int $surveyId, string $text): void {
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO questions (survey_id, question_text) VALUES (?, ?)
+    ');
+    $stmt->execute([$surveyId, $text]);
+}
+
+public function updateQuestionScores(int $id, array $scores): void {
+    $stmt = $this->database->connect()->prepare('
+        UPDATE questions SET 
+            score_lewa_prawa = :lp, 
+            score_wladza_wolnosc = :ww, 
+            score_postep_konserwa = :pk, 
+            score_globalizm_nacjonalizm = :gn
+        WHERE id = :id
+    ');
+    $stmt->execute([
+        'lp' => $scores['lp'],
+        'ww' => $scores['ww'],
+        'pk' => $scores['pk'],
+        'gn' => $scores['gn'],
+        'id' => $id
+    ]);
+}
+
+public function updateQuestion(int $id, string $text, array $scores): void 
+{
+    $stmt = $this->database->connect()->prepare('
+        UPDATE questions SET 
+            question_text = :text,
+            score_lewa_prawa = :lp, 
+            score_wladza_wolnosc = :ww, 
+            score_postep_konserwa = :pk, 
+            score_globalizm_nacjonalizm = :gn
+        WHERE id = :id
+    ');
+
+    $stmt->execute([
+        'text' => $text,
+        'lp' => $scores['lp'],
+        'ww' => $scores['ww'],
+        'pk' => $scores['pk'],
+        'gn' => $scores['gn'],
+        'id' => $id
+    ]);
+}
+
+
+
+public function addQuestionWithScores(int $surveyId, string $text, array $scores): void 
+{
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO questions (
+            survey_id, question_text, 
+            score_lewa_prawa, score_wladza_wolnosc, 
+            score_postep_konserwa, score_globalizm_nacjonalizm
+        ) VALUES (:sid, :txt, :lp, :ww, :pk, :gn)
+    ');
+
+    $stmt->execute([
+        'sid' => $surveyId,
+        'txt' => $text,
+        'lp' => $scores['lp'],
+        'ww' => $scores['ww'],
+        'pk' => $scores['pk'],
+        'gn' => $scores['gn']
+    ]);
+}
+
+public function deleteQuestion(int $id): void 
+{
+    $stmt = $this->database->connect()->prepare('DELETE FROM questions WHERE id = :id');
+    $stmt->execute(['id' => $id]);
 } 
+}

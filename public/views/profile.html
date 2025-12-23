@@ -38,6 +38,12 @@
         <span><?= htmlspecialchars($user['email']); ?></span>
     </div>
 
+    <div class="profile-field">
+    <label>Zdjęcie:</label>
+    <img src="/uploads/avatar.jpg" alt="Avatar" style="max-width:200px; border-radius:8px;">
+</div>
+
+
       <?php if (!empty($scores)): ?>
         <h3>Wyniki użytkownika</h3>
         <table>

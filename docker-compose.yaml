@@ -11,6 +11,7 @@ services:
 
     volumes:
       - .:/app/
+      - ./storage/uploads:/app/storage/uploads
     links:
       - php
     networks:
@@ -31,6 +32,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - .:/app
+      - ./storage/uploads:/app/storage/uploads
     networks:
       - pg-network
   

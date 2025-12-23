@@ -1,0 +1,416 @@
+/* ===== OGÓLNE USTAWIENIA ===== */
+:root {
+    --primary-color: #000000;
+    --secondary-color: #000000;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --bg-color: #f4f7f6;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-radius: 12px;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.edit-survey-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ===== POWRÓT I NAGŁÓWKI ===== */
+.back-link {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 20px;
+    transition: transform 0.2s;
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+}
+
+h1 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 30px;
+}
+
+/* ===== SEKCJA DODAWANIA PYTANIA ===== */
+.add-question-section {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+}
+
+.add-question-section h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* Siatka punktacji */
+.scores-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.score-input {
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.score-input label {
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.score-input input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn-add {
+    background: var(--success-color);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-add:hover {
+    background: #218838;
+}
+
+/* ===== LISTA ISTNIEJĄCYCH PYTAŃ ===== */
+.edit-question-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    border-left: 5px solid var(--primary-color);
+}
+
+.edit-text-area label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+}
+
+.edit-text-area input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 2px solid #eee;
+    font-size: 1.1rem;
+    font-weight: 500;
+    transition: border-color 0.3s;
+}
+
+.edit-text-area input:focus {
+    outline: none;
+    border-bottom-color: var(--primary-color);
+}
+
+/* Rząd edycji punktów w karcie */
+.edit-scores-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.score-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f1f3f5;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.score-field span {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #4b6cb7;
+}
+
+.score-field input {
+    width: 45px;
+    border: none;
+    background: transparent;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Przyciski akcji w karcie */
+.btn-save {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.btn-delete-small {
+    background: #fff;
+    color: var(--danger-color);
+    text-decoration: none;
+    padding: 8px 15px;
+    border: 1px solid var(--danger-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-delete-small:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 40px 0;
+}
+
+/* Responsywność */
+@media (max-width: 768px) {
+    .edit-scores-row {
+        justify-content: center;
+    }
+    .btn-save {
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+
+
+/* ===== GŁÓWNY KONTENER PANELU ===== */
+.admin-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.admin-section {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 40px;
+}
+
+.admin-section h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.admin-section h2::before {
+    content: '';
+    width: 5px;
+    height: 25px;
+    background: var(--primary-color);
+    margin-right: 15px;
+    border-radius: 5px;
+}
+
+/* ===== TABELA UŻYTKOWNIKÓW ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th {
+    text-align: left;
+    background-color: #f8f9fa;
+    color: #666;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+tr:hover {
+    background-color: #fcfcfc;
+}
+
+/* Stylizacja Selecta (Role) */
+select {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+select:focus {
+    border-color: var(--primary-color);
+}
+
+/* Przycisk usuwania w tabeli */
+.btn-delete {
+    color: var(--danger-color);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.btn-delete:hover {
+    background: #fff5f5;
+}
+
+/* ===== ZARZĄDZANIE ANKIETAMI ===== */
+.admin-section form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.admin-section form input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.admin-section form button {
+    background: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.admin-section form button:hover {
+    background: var(--primary-color);
+}
+
+/* Siatka kart ankiet */
+.surveys-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.survey-admin-card {
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.survey-admin-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.survey-admin-card span {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    min-height: 2.4em; /* Zapewnia równą wysokość przy 2 liniach tekstu */
+}
+
+.survey-admin-card a {
+    text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.survey-admin-card a:first-of-type {
+    background-color: #f1f3f5;
+    color: var(--primary-color);
+}
+
+.survey-admin-card a:first-of-type:hover {
+    background-color: #e9ecef;
+}
+
+.btn-danger {
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-color);
+    color: #fff;
+}

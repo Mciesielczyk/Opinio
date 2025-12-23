@@ -11,18 +11,19 @@ class QuestionsController extends AppController  {
     public function __construct() 
     {
          $this->surveysRepository = new SurveysRepository();
-            $this->userRepository = UserRepository::getInstance();
+         $this->userRepository = UserRepository::getInstance();
     }
 
 
     public function questions() {
-
+$this->requireLogin();
         $Surveys =  $this->surveysRepository->getSurveys();
         return $this->render("questions", ['Surveys' => $Surveys]);
     }
     
 
         public function view() {
+            $this->requireLogin();
         if (!isset($_GET['id'])) {
             die("Brak ID ankiety");
         }

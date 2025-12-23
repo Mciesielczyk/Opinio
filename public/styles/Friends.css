@@ -55,3 +55,55 @@
     font-size: 0.9rem;
     color: #888;
 }
+
+/* ===== INFORMACJA O WYSZUKIWANIU ===== */
+.search-info {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between; /* Tekst po lewej, przycisk po prawej */
+    align-items: center;
+    background: #f8f9fa; /* Bardzo jasne tło, żeby odróżnić od kart */
+    border-left: 5px solid #ff4b2b; /* Akcent kolorystyczny pasujący do przycisków */
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+}
+
+.search-info p {
+    margin: 0;
+    color: #555;
+    font-size: 1.1rem;
+}
+
+.search-info strong {
+    color: #ff4b2b; /* Wyróżnienie wyszukiwanej frazy */
+}
+
+.search-info a {
+    text-decoration: none;
+    color: #ffffff;
+    background: #ff4b2b;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+    box-shadow: 0 4px 10px rgba(255, 75, 43, 0.2);
+}
+
+.search-info a:hover {
+    background: #e63e1f;
+    transform: scale(1.05);
+}
+
+/* Responsywność dla urządzeń mobilnych */
+@media (max-width: 600px) {
+    .search-info {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        border-left: none;
+        border-top: 5px solid #ff4b2b;
+    }
+}

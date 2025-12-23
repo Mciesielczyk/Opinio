@@ -5,6 +5,8 @@ require_once 'src/controllers/QuestionsController.php';
 require_once 'src/controllers/FriendsController.php';
 require_once 'src/controllers/DiscoverController.php';
 require_once 'src/controllers/ProfileController.php';
+require_once 'src/controllers/MessageController.php';
+require_once 'src/controllers/AdminController.php';
 
 class Routing {
 
@@ -33,6 +35,10 @@ class Routing {
             'controller' => 'DiscoverController',
             'action' => 'discover'
         ],
+        'swipe' => [
+        'controller' => 'DiscoverController',
+        'action' => 'swipe'
+        ],
         'profile' => [
             'controller' => 'ProfileController',
             'action' => 'profile'
@@ -49,9 +55,55 @@ class Routing {
         'controller' => 'QuestionsController',
         'action' => 'saveSurvey'
         ],
+        'friendsSearch' => [
+        'controller' => 'FriendsController',
+        'action' => 'friendsSearch'
+        ],
+        'chat' => [
+            'controller' => 'MessageController',
+            'action' => 'chat'
+        ],
+        'adminPanel' => [
+            'controller' => 'AdminController', 
+            'action' => 'adminPanel'
+        ],
+        'editSurvey' => [
+            'controller' => 'AdminController', 
+            'action' => 'editSurvey'
+        ],
+        'deleteUser' => [
+            'controller' => 'AdminController', 
+            'action' => 'deleteUser'
+        ],
+        'updateQuestionParams' => [
+            'controller' => 'AdminController', 
+            'action' => 'updateQuestionParams'
+        ],
+        'addSurvey' => [
+        'controller' => 'AdminController',
+        'action' => 'addSurvey'
+      ],
+      'addQuestion' => [
+    'controller' => 'AdminController',
+    'action' => 'addQuestion'
+    ],
+    'deleteSurvey' => [
+        'controller' => 'AdminController',
+        'action' => 'deleteSurvey'
+      ],
+      'changeRole' => [
+    'controller' => 'AdminController',
+    'action' => 'changeRole'
+],
+'updateQuestion' => [
+    'controller' => 'AdminController',
+    'action' => 'updateQuestion'
+],'deleteQuestion' => [
+    'controller' => 'AdminController',
+    'action' => 'deleteQuestion'
+]
 
-
-    ];
+     ];
 
 
     public static function run(string $path) {
@@ -67,6 +119,19 @@ class Routing {
             case 'survey':
             case 'logout':
             case 'saveSurvey':
+            case 'swipe':
+            case 'friendsSearch':
+            case 'chat':
+            case 'adminPanel':
+            case 'editSurvey':
+            case 'deleteUser':
+            case 'updateQuestionParams':
+            case 'addSurvey':
+            case 'addQuestion':
+            case 'deleteSurvey':
+            case 'changeRole':
+                case 'updateQuestion':
+            case 'deleteQuestion':
                 $controller = Routing::$routes[$path]['controller'];
                 $action = Routing::$routes[$path]['action'];
 

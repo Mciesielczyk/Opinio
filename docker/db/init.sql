@@ -4,10 +4,12 @@ CREATE TABLE users (
     surname VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     "password" VARCHAR(255) NOT NULL,
+    profile_picture VARCHAR(255),
+    description TEXT,                -- Pole na opis (bio)
+    location VARCHAR(100),           -- Skąd się jest (np. miasto)
+    role VARCHAR(20) DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-
 
 CREATE TABLE surveys (
     id SERIAL PRIMARY KEY,
@@ -117,4 +119,38 @@ CREATE TABLE user_scores (
     score_postep_konserwa DOUBLE PRECISION DEFAULT 0.0,
     score_globalizm_nacjonalizm DOUBLE PRECISION DEFAULT 0.0,
     calculated_at TIMESTAMP DEFAULT NOW()
+);
+
+
+CREATE TABLE interactions (
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,       -- Kto swipuje
+    target_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,     -- Kogo widzi
+    action VARCHAR(10) NOT NULL CHECK (action IN ('like', 'dislike' , 'maybe')), -- Co zrobił
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Użytkownik może ocenić daną osobę tylko raz
+    UNIQUE(user_id, target_id)
+);
+
+
+
+CREATE TABLE friends (
+    id SERIAL PRIMARY KEY,
+    user_id_1 INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    user_id_2 INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    status VARCHAR(20) DEFAULT 'accepted',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    -- Kluczowe zabezpieczenie: user_id_1 musi być mniejsze niż user_id_2
+    CONSTRAINT check_user_order CHECK (user_id_1 < user_id_2),
+    -- Ta sama para może być znajomymi tylko raz
+    UNIQUE(user_id_1, user_id_2)
+);
+
+CREATE TABLE messages (
+    id SERIAL PRIMARY KEY,
+    sender_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_read BOOLEAN DEFAULT FALSE
 );

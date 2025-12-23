@@ -8,7 +8,7 @@ class ProfileController extends AppController  {
     private $userRepository;
 
     public function __construct() {
-                 $this->userRepository = UserRepository::getInstance();
+         $this->userRepository = UserRepository::getInstance();
     }
 
     public function profile() {

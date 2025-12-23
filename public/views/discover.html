@@ -10,6 +10,32 @@
     <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
 </head>
 <body>
+    
+    <?php if (isset($_GET['match'])): ?>
+    <div class="match-banner" id="matchBanner">
+        <div class="match-banner-content">
+            <span class="heart">❤️</span>
+            <p>Mamy to! Nowy Match!</p>
+            <button onclick="closeMatch()">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Automatyczne ukrywanie po 5 sekundach
+        setTimeout(() => {
+            closeMatch();
+        }, 5000);
+
+        function closeMatch() {
+            const banner = document.getElementById('matchBanner');
+            banner.style.transform = 'translateY(-100%)';
+            banner.style.opacity = '0';
+            // Usuwamy parametr z URL bez odświeżania strony
+            window.history.replaceState({}, document.title, "/discover");
+        }
+    </script>
+<?php endif; ?>
+
     <?php include 'header.php'; ?>
 
      <div class="message">
@@ -17,17 +43,18 @@
     </div>
 
     <div class="discover-container">
+        <?php if ($user) :?>
         <div class="card">
             <div class="fade-bottom" style="background-image: url('https://picsum.photos/400/500?random=10');"></div>
             <div class="card-profile">
                 <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Profilowe">
                 <div class="profile-info">
-                    <span class="profile-name">Emily Davis, 26</span>
-                    <span class="profile-location">Warszawa</span>
+                    <span class="profile-name"><?= htmlspecialchars($user['name']) ?>, <?= htmlspecialchars($user['surname']) ?></span>
+                    <span class="profile-location"><?= htmlspecialchars($user['location'] ?: 'Lokalizacja nieznana') ?></span>
                 </div>
             </div>
             <div class="card-description">
-                Interesuję się podróżami, muzyką i sportem. Szukam kogoś do wspólnych przygód.
+                <?= htmlspecialchars($user['description'] ?: 'Brak opisu użytkownika.' )?>
             </div>
             <div class="compatibility">
                 <div class="compatibility-bar">
@@ -37,11 +64,18 @@
             </div>
         </div>
 
-        <div class="card-buttons">
-            <button class="reject">Nie</button>
-            <button class="maybe">Może</button>
-            <button class="accept">Bardzo tak</button>
-        </div>
+            <form action="swipe" method="POST" class="card-buttons">
+                <input type="hidden" name="target_id" value="<?= $user['id'] ?>">
+                <button type="submit" name="action" value="dislike" class="reject">Nie</button>
+                <button type="submit" name="action" value="maybe" class="maybe">Może</button>
+                <button type="submit" name="action" value="like" class="accept">Bardzo tak</button>
+            </form>
+       <?php else: ?>
+            <div class="no-more-users">
+                <h2>To już wszyscy!</h2>
+                <p>Wróć później, może pojawią się nowe osoby.</p>
+            </div>
+        <?php endif; ?>
     </div>
 </body>
 </html>

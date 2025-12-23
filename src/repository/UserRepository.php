@@ -126,4 +126,27 @@ date_default_timezone_set('Europe/Warsaw');
     return $stmt->execute();
 }
 
+public function deleteUser(int $id): void {
+    $stmt = $this->database->connect()->prepare('DELETE FROM users WHERE id = :id');
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+}
+
+public function getAllUsers(): array {
+    $stmt = $this->database->connect()->prepare('SELECT id, name, surname, email, role, created_at FROM users');
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+public function updateUserRole(int $userId, string $role): void {
+    $stmt = $this->database->connect()->prepare('
+        UPDATE users SET role = :role WHERE id = :id
+    ');
+    $stmt->execute([
+        'role' => $role,
+        'id' => $userId
+    ]);
+}
+
 }

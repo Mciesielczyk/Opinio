@@ -56,9 +56,9 @@ class SecurityController extends AppController
         session_start(); // uruchom sesję jeśli jeszcze nie uruchomiona
         $_SESSION['user_id'] = $userRow['id']; // ID użytkownika
         $_SESSION['username'] = $userRow['email']; // opcjonalnie e-mail
-
+        $_SESSION['user_role'] = $userRow['role']; // rola użytkownika
         $url = "https://$_SERVER[HTTP_HOST]";//przekierowanie na dashboard
-        header("Location: {$url}/dashboard");
+        header("Location: {$url}/discover");
     }
 
 

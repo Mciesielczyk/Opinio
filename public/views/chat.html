@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odkrywaj</title>
+           <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+
+        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
+</head>
+
+    <?php include 'header.php'; ?>
+
+<div class="chat-container">
+    <div class="messages-window">
+        <?php foreach ($messages as $msg): ?>
+            <div class="message-wrapper <?= $msg['sender_id'] == $_SESSION['user_id'] ? 'sent' : 'received' ?>">
+                <div class="message-bubble">
+                    <?= htmlspecialchars($msg['message']) ?>
+                    <span class="time"><?= date('H:i', strtotime($msg['created_at'])) ?></span>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <form action="/chat?id=<?= $receiverId ?>" method="POST" class="chat-input">
+        <input type="text" name="message" placeholder="Napisz wiadomość..." required>
+        <button type="submit">Wyślij</button>
+    </form>
+</div>
+    
+   
+</html>

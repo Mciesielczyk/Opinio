@@ -5,7 +5,11 @@
         <a href="/questions"><button>Pytania</button></a>
         <a href="/friends"><button>Znajomi</button></a>
         <a href="/discover"><button>Odkrywaj</button></a>
-       
+
+       <?php if ($_SESSION['user_role'] === 'admin'): ?>
+        <a href="/adminPanel" style="color: gold;">PANEL ADMINA</a>
+        <?php endif; ?>
+
     </div>
 
     <div class="icons">
