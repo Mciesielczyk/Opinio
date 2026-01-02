@@ -45,10 +45,14 @@
     <div class="discover-container">
         <?php if ($user) :?>
         <div class="card">
-            <div class="fade-bottom" style="background-image: url('https://picsum.photos/400/500?random=10');"></div>
-            <div class="card-profile">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Profilowe">
-                <div class="profile-info">
+<div class="fade-bottom" 
+     style="background-image: url('/public/uploads/backgrounds/Flag_of_Poland_(normative).svg.png');">
+
+</div>
+    
+    <div class="card-profile">
+                    <img src="/public/uploads/avatars/<?= $user['profile_picture'] ?: 'avatar.jpg' ?>" alt="Profilowe">            
+                        <div class="profile-info">
                     <span class="profile-name"><?= htmlspecialchars($user['name']) ?>, <?= htmlspecialchars($user['surname']) ?></span>
                     <span class="profile-location"><?= htmlspecialchars($user['location'] ?: 'Lokalizacja nieznana') ?></span>
                 </div>

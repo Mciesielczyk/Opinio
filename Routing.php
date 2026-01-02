@@ -98,50 +98,39 @@ class Routing {
 'updateQuestion' => [
     'controller' => 'AdminController',
     'action' => 'updateQuestion'
-],'deleteQuestion' => [
+],
+'deleteQuestion' => [
     'controller' => 'AdminController',
     'action' => 'deleteQuestion'
+],
+'uploadImage' => [
+    'controller' => 'ProfileController',
+    'action' => 'uploadImage'
+],
+'updateSurveyImage' => [
+    'controller' => 'AdminController',
+    'action' => 'updateSurveyImage'
 ]
-
      ];
 
 
     public static function run(string $path) {
-        //TODO na podstawie sciezki sprawdzamy jaki HTML zwrocic
-        switch ($path) {
-            case 'dashboard': //fallthrough nie ma breaka wiec przechodzi do nastepnego case'a
-            case 'login':
-            case 'register':
-            case 'questions':
-            case 'friends':
-            case 'discover':
-            case 'profile':
-            case 'survey':
-            case 'logout':
-            case 'saveSurvey':
-            case 'swipe':
-            case 'friendsSearch':
-            case 'chat':
-            case 'adminPanel':
-            case 'editSurvey':
-            case 'deleteUser':
-            case 'updateQuestionParams':
-            case 'addSurvey':
-            case 'addQuestion':
-            case 'deleteSurvey':
-            case 'changeRole':
-                case 'updateQuestion':
-            case 'deleteQuestion':
-                $controller = Routing::$routes[$path]['controller'];
-                $action = Routing::$routes[$path]['action'];
+        // 1. Sprawdzamy, czy klucz (ścieżka) istnieje w naszej tablicy słownikowej
+        if (array_key_exists($path, self::$routes)) {
+            
+            $route = self::$routes[$path];
+            $controllerName = $route['controller'];
+            $actionName = $route['action'];
 
-                $controllerObj = new $controller; //tworzymy obiekt klasy kontrolera
-                $controllerObj->$action(); //wywolujemy metode akcji na obiekcie kontrolera
-                break;
-
-            default:
-                include 'public/views/404.html';
-                break;
-        } 
+            // 2. Tworzymy obiekt i wywołujemy akcję dynamicznie
+            $controllerObj = new $controllerName;
+            $controllerObj->$actionName();
+            
+        } else {
+            // 3. Jeśli nie ma takiej trasy w tablicy - wyślij 404
+            http_response_code(404);
+            include 'public/views/404.html';
+            die();
+        }
     }
 }

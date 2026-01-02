@@ -35,8 +35,11 @@
     <div class="friends-list">
     <ul>
         <?php foreach ($Friends as $friend): ?>
+            <?php var_dump($friend['profile_picture']); ?>
+
         <li class="friend-card">
-            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profil John Doe">
+            
+            <img src="/public/uploads/avatars/<?= $friend['profile_picture'] ?>" alt="Profilowe">
             <div class="friend-info">
                 <span class="friend-name"><?= htmlspecialchars($friend['name']); ?></span>
                 <span class="friend-similarity">Podobieństwo: 78%</span>

@@ -36,22 +36,26 @@ class UserRepository extends Repository
     }
 
 
-       public function createUser(string $name, string $surname, string $email,string $hashPassword): void
-    {
-        $stmt = $this->database->connect()->prepare('
-            INSERT INTO public.users (name,surname,email, "password") 
-            VALUES (:name, :surname, :email, :password)
-        ');
+public function createUser(string $name, string $surname, string $email, string $hashPassword): void
+{
+    // Domyślne nazwy plików
+    $defaultAvatar = 'avatar.jpg'; 
+    $defaultBackground = 'pl.png';
 
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':password', $hashPassword);
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':surname', $surname);
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO public.users (name, surname, email, "password", profile_picture, background_picture) 
+        VALUES (:name, :surname, :email, :password, :avatar, :background)
+    ');
 
-        $stmt->execute();
+    $stmt->bindParam(':name', $name);
+    $stmt->bindParam(':surname', $surname);
+    $stmt->bindParam(':email', $email);
+    $stmt->bindParam(':password', $hashPassword);
+    $stmt->bindParam(':avatar', $defaultAvatar);
+    $stmt->bindParam(':background', $defaultBackground);
 
-     
-    }
+    $stmt->execute();
+}
 
     public function getUserByEmail(string $email): ?array
     {
@@ -147,6 +151,24 @@ public function updateUserRole(int $userId, string $role): void {
         'role' => $role,
         'id' => $userId
     ]);
+}
+
+public function updateProfilePicture(string $email, string $fileName) {
+    $stmt = $this->database->connect()->prepare('
+        UPDATE users SET profile_picture = :fileName WHERE email = :email
+    ');
+    $stmt->bindParam(':fileName', $fileName);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+}
+
+public function updateBackgroundPicture(string $email, string $fileName) {
+    $stmt = $this->database->connect()->prepare('
+        UPDATE users SET background_picture = :fileName WHERE email = :email
+    ');
+    $stmt->bindParam(':fileName', $fileName);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
 }
 
 }

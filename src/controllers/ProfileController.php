@@ -26,5 +26,29 @@ class ProfileController extends AppController  {
         return $this->render("profile", ['user' => $user , 'scores' => $scores]);
     }
     
+  
+public function uploadImage() {
+     $this->requireLogin();
+    $type = $_POST['image_type']; // 'profile' lub 'background'
+    
+    if ($this->isPost() && is_uploaded_file($_FILES['file']['tmp_name'])) {
+        $subFolder = ($type === 'background') ? 'backgrounds/' : 'avatars/';
+        $uploadDir = dirname(__DIR__, 2) . '/public/uploads/' . $subFolder;
+        $fileName = uniqid() . '_' . $_FILES['file']['name'];
+        $fullPath = $uploadDir . $fileName;
 
+        if (move_uploaded_file($_FILES['file']['tmp_name'], $fullPath)) {
+            $userEmail = $_SESSION['username'];
+
+            if ($type === 'background') {
+                $this->userRepository->updateBackgroundPicture($userEmail, $fileName);
+            } else {
+                $this->userRepository->updateProfilePicture($userEmail, $fileName);
+            }
+            
+            header("Location: /profile");
+            exit();
+        }
+    }
+}
 }

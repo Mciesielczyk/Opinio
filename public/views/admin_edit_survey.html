@@ -18,6 +18,28 @@
 <div class="edit-survey-container">
     <a href="/adminPanel" class="back-link">← Powrót do panelu</a>
     <h1>Edycja ankiety: <?= htmlspecialchars($survey['title']) ?></h1>
+<section class="edit-survey-image-section">
+    <h3>Zdjęcie ankiety</h3>
+    <div class="current-image">
+        <?php if($survey['image_url']): ?>
+            <img src="/public/uploads/surveys/<?= $survey['image_url'] ?>" alt="Miniatura" style="max-width: 200px; border-radius: 10px; margin-bottom: 10px;">
+        <?php else: ?>
+            <p>Brak przypisanego zdjęcia.</p>
+        <?php endif; ?>
+    </div>
+
+    <form action="/updateSurveyImage" method="POST" enctype="multipart/form-data" class="admin-form">
+        <input type="hidden" name="survey_id" value="<?= $survey['id'] ?>">
+        <div class="input-group">
+            <label for="survey_image">Wybierz nowe zdjęcie (JPG/PNG):</label>
+            <input type="file" name="survey_image" id="survey_image" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn-save">Aktualizuj zdjęcie</button>
+    </form>
+</section>
+
+<hr>
+
 
     <section class="add-question-section">
         <h3>Dodaj nowe pytanie</h3>

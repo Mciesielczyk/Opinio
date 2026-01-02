@@ -94,9 +94,19 @@ public function saveUserAnswers(int $userId, array $answers): void {
 }
 
 
-public function addSurvey(string $title): void {
-    $stmt = $this->database->connect()->prepare('INSERT INTO surveys (title) VALUES (?)');
-    $stmt->execute([$title]);
+public function addSurvey(string $title, string $image_url = null) {
+    // Jeśli image_url nie zostało przekazane (jest null), ustawiamy 'pl.png'
+    $finalImage = $image_url ?: 'pl.png';
+
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO surveys (title, image_url)
+        VALUES (:title, :image_url)
+    ');
+
+    $stmt->execute([
+        'title' => $title,
+        'image_url' => $finalImage
+    ]);
 }
 
 public function deleteSurvey(int $id): void {
@@ -178,4 +188,15 @@ public function deleteQuestion(int $id): void
     $stmt = $this->database->connect()->prepare('DELETE FROM questions WHERE id = :id');
     $stmt->execute(['id' => $id]);
 } 
+
+
+public function updateImage(int $id, string $fileName) {
+    $stmt = $this->database->connect()->prepare('
+        UPDATE surveys SET image_url = :image_url WHERE id = :id
+    ');
+    $stmt->execute([
+        'image_url' => $fileName,
+        'id' => $id
+    ]);
+}
 }

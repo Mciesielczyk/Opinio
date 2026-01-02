@@ -157,4 +157,35 @@ public function deleteQuestion()
 
 }
 
+public function updateSurveyImage() {
+    if (!$this->isPost()) {
+        return header("Location: /adminPanel");
+    }
+
+    $surveyId = $_POST['survey_id'];
+    
+    if (isset($_FILES['survey_image']) && $_FILES['survey_image']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['survey_image']['tmp_name'];
+        $fileName = $_FILES['survey_image']['name'];
+        
+        // Generowanie unikalnej nazwy pliku
+        $newFileName = uniqid() . '_' . $fileName;
+        $uploadFolder = './public/uploads/surveys/';
+        
+        // Upewnij się, że folder istnieje
+        if (!is_dir($uploadFolder)) {
+            mkdir($uploadFolder, 0777, true);
+        }
+
+        $destPath = $uploadFolder . $newFileName;
+
+        if (move_uploaded_file($fileTmpPath, $destPath)) {
+            // Tutaj wywołujesz repository, aby zapisać $newFileName w bazie
+            $this->surveyRepository->updateImage($surveyId, $newFileName);
+        }
+    }
+
+    header("Location: /editSurvey?id=" . $surveyId);
+}
+
 }

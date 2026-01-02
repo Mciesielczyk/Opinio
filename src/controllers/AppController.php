@@ -14,25 +14,27 @@ class AppController { //kalsa bazowa dla kontrolerow
     }
 
     protected function render(string $template = null, array $variables = [])
-    {//metoda renderujaca widok
-        $templatePath = 'public/views/'. $template.'.html';
-        $templatePath404 = 'public/views/404.html';
-        $output = "";
-                 
-        if(file_exists($templatePath)){//sprawdzamy czy plik istnieje
-            extract($variables); //tworzy zmienne z kluczy tablicy
-            ob_start();//rozpoczynamy buforowanie outputu
-         //Pozwala na przechwycenie zawartości pliku zamiast od razu wyświetlać ją w przeglądarce
-          
-            include $templatePath;//wczytujemy plik szablonu
-            $output = ob_get_clean();//pobieramy zawartosc bufora i czyscimy bufor
-        } else {
-            ob_start();
-            include $templatePath404;
-            $output = ob_get_clean();
-        }
-        echo $output;
+{
+    // Najpierw sprawdzamy wersję .php, potem .html
+    $templatePath = 'public/views/'. $template . '.php';
+    if (!file_exists($templatePath)) {
+        $templatePath = 'public/views/'. $template . '.html';
     }
+
+    $templatePath404 = 'public/views/404.html';
+    
+    if(file_exists($templatePath)) {
+        extract($variables);
+        ob_start();
+        include $templatePath;
+        $output = ob_get_clean();
+    } else {
+        ob_start();
+        include $templatePath404;
+        $output = ob_get_clean();
+    }
+    echo $output;
+}
 
     
     protected function isLoggedIn(): bool {
