@@ -199,4 +199,26 @@ public function updateImage(int $id, string $fileName) {
         'id' => $id
     ]);
 }
+
+
+// Sprawdzenie czy rekord istnieje
+public function isSurveyFinished(int $userId, int $surveyId): bool {
+    $stmt = $this->database->connect()->prepare('
+        SELECT 1 FROM user_surveys_completed 
+        WHERE user_id = :u AND survey_id = :s
+    ');
+    $stmt->execute(['u' => $userId, 's' => $surveyId]);
+    return (bool)$stmt->fetch();
+}
+
+// Dodanie rekordu po wysłaniu ankiety
+public function markSurveyAsFinished(int $userId, int $surveyId): void {
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO user_surveys_completed (user_id, survey_id) 
+        VALUES (:u, :s) ON CONFLICT DO NOTHING
+    ');
+    $stmt->execute(['u' => $userId, 's' => $surveyId]);
+}
+
+
 }

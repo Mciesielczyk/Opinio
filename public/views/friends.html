@@ -32,30 +32,40 @@
     </div>
             <?php endif; ?>
 
-    <div class="friends-list">
-    <ul>
-        <?php foreach ($Friends as $friend): ?>
-            <?php var_dump($friend['profile_picture']); ?>
+<div class="friends-list">
+        <ul>
+            <?php foreach ($friends as $friend): ?>
+                <li class="friend-card">
+                    <img src="/public/uploads/avatars/<?= $friend['profile_picture'] ?>" alt="Profilowe">
+                    
+                    <div class="friend-info">
+                        <span class="friend-name">
+                            <?= htmlspecialchars($friend['name']) . ' ' . htmlspecialchars($friend['surname']); ?>
+                        </span>
+                        
+                        <span class="friend-similarity">Podobieństwo: <?= $friend['similarity']; ?>%</span>
 
-        <li class="friend-card">
-            
-            <img src="/public/uploads/avatars/<?= $friend['profile_picture'] ?>" alt="Profilowe">
-            <div class="friend-info">
-                <span class="friend-name"><?= htmlspecialchars($friend['name']); ?></span>
-                <span class="friend-similarity">Podobieństwo: 78%</span>
-                <span class="friend-description">
-                    <?= htmlspecialchars($friend['description'] ?? 'Ten użytkownik nie dodał jeszcze opisu.'); ?>
-                </span>
-            </div>
-            <div class="friend-actions">
-                <a href="/chat?id=<?= $friend['id'] ?>" class="chat-btn">Napisz wiadomość</a>
-                
-            </div>
-        </li>
+                        <div class="friend-axes">
+                            <small>
+                                L/P: <strong><?= number_format($friend['score_lewa_prawa'] ?? 0, 1) ?></strong> | 
+                                W/W: <strong><?= number_format($friend['score_wladza_wolnosc'] ?? 0, 1) ?></strong> | 
+                                P/K: <strong><?= number_format($friend['score_postep_konserwa'] ?? 0, 1) ?></strong> | 
+                                G/N: <strong><?= number_format($friend['score_globalizm_nacjonalizm'] ?? 0, 1) ?></strong>
+                            </small>
+                        </div>
 
-    <?php endforeach; ?>
-    </ul>
-</div>
+                        <span class="friend-description">
+                            <?= htmlspecialchars($friend['description'] ?? 'Ten użytkownik nie dodał jeszcze opisu.'); ?>
+                        </span>
+                    </div>
+
+                    <div class="friend-actions">
+                        <a href="/chat?id=<?= $friend['id'] ?>" class="chat-btn">Napisz wiadomość</a>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
 
 

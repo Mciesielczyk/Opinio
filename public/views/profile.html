@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
     <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+        <link rel="stylesheet" type="text/css" href="public/styles/profile.css">
         <link rel="stylesheet" type="text/css" href="public/styles/header.css">
-
 
 </head>
 <body>
-
-    <?php include 'header.php'; ?>
+  <?php include 'header.php'; ?>
+    <?php
+    $backgroundFilename = $user['background_picture'] ?: 'default-bg.jpg';
+    $backgroundPath = "public/uploads/backgrounds/" . $backgroundFilename;
+?>
 
 
     <div class="message">
@@ -20,40 +23,51 @@
 
 
     
-   <div class="profile-container">
+<div class="profile-container">
     <h2>Profil użytkownika</h2>
-    
-    <div class="profile-field">
-        <label>Imię:</label>
-        <span><?= htmlspecialchars($user['name']); ?></span>
-    </div>
 
-    <div class="profile-field">
-        <label>Nazwisko:</label>
-        <span><?= htmlspecialchars($user['surname']); ?></span>
-    </div>
-
-    <div class="profile-field">
-        <label>Email:</label>
-        <span><?= htmlspecialchars($user['email']); ?></span>
-    </div>
-
-<div class="cover-photo-container" style="width: 100%; height: 200px; background-image: url('public/uploads/backgrounds/<?= $user['background_picture'] ?: 'default-bg.jpg' ?>'); background-size: cover; background-position: center; border-radius: 8px; margin-bottom: 20px;">
-    
-    <form action="uploadImage" method="POST" enctype="multipart/form-data" style="padding: 10px;">
+ <div 
+    class="cover-photo-container" 
+    style="background-image: url('<?= $backgroundPath ?>');"
+>
+    <form action="uploadImage" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="image_type" value="background">
-        <input type="file" name="file" accept="image/*">
-        <button type="submit">Zmień tło</button>
+        <input type="file" name="file" id="bg-upload" hidden onchange="this.form.submit()">
+        <label for="bg-upload" class="edit-btn">Zmień tło</label>
     </form>
 </div>
 
-<div class="profile-field">
-    <img src="public/uploads/avatars/<?= $user['profile_picture'] ?: 'default-avatar.png' ?>" alt="Avatar" style="width:150px; height:150px; border-radius:50%; object-fit: cover; border: 3px solid white;">
-    
-    <form action="uploadImage" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="image_type" value="profile">
-        <input type="file" name="file" accept="image/*">
-        <button type="submit">Zmień awatar</button>
+    <div class="avatar-section">
+        <img src="public/uploads/avatars/<?= $user['profile_picture'] ?: 'default-avatar.png' ?>" alt="Avatar" class="profile-avatar">
+        <form action="uploadImage" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="image_type" value="profile">
+            <input type="file" name="file" accept="image/*" id="avatar-input" hidden onchange="this.form.submit()">
+            <label for="avatar-input" class="edit-btn">Zmień awatar</label>
+        </form>
+    </div>
+
+    <form action="updateProfileData" method="POST" class="profile-edit-form">
+        <div class="profile-field">
+            <label>Imię:</label>
+            <input name="name" type="text" value="<?= htmlspecialchars($user['name']); ?>" required>
+        </div>
+
+        <div class="profile-field">
+            <label>Nazwisko:</label>
+            <input name="surname" type="text" value="<?= htmlspecialchars($user['surname']); ?>" required>
+        </div>
+
+        <div class="profile-field">
+            <label>Email (nieedytowalny):</label>
+            <span><?= htmlspecialchars($user['email']); ?></span>
+        </div>
+
+        <div class="profile-field">
+            <label>Twój Opis:</label>
+            <textarea name="description" placeholder="Napisz coś o sobie..."><?= htmlspecialchars($user['description'] ?? ''); ?></textarea>
+        </div>
+
+        <button type="submit" class="save-btn">Zapisz zmiany</button>
     </form>
 </div>
     

@@ -1,0 +1,172 @@
+/* Kontener główny */
+.profile-container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 0; /* padding usunięty, żeby zdjęcie w tle przylegało do krawędzi */
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.profile-container h2 {
+    padding: 20px;
+    margin: 0;
+    text-align: center;
+    color: #182848;
+}
+
+/* Zdjęcie w tle */
+.cover-photo-container {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-bottom: 5px solid #fff;
+}
+
+/* Sekcja Awatara - wyśrodkowana i uniesiona nad tło */
+.avatar-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -75px; /* Uniesienie awatara do połowy wysokości tła */
+    margin-bottom: 20px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    background: #eee;
+}
+
+/* Przyciski edycji (etykiety dla input file) */
+.edit-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    background: rgba(24, 40, 72, 0.8);
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.edit-btn:hover {
+    background: #4b6cb7;
+}
+
+/* Przycisk edycji tła (umiejscowiony w rogu tła) */
+.cover-photo-container .edit-btn {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
+/* Formularz edycji danych */
+.profile-edit-form {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-field label {
+    font-weight: bold;
+    color: #4b6cb7;
+    font-size: 0.9rem;
+}
+
+.profile-field input, 
+.profile-field textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.profile-field input:focus, 
+.profile-field textarea:focus {
+    outline: none;
+    border-color: #4b6cb7;
+    box-shadow: 0 0 5px rgba(75, 108, 183, 0.2);
+}
+
+.profile-field textarea {
+    height: 120px;
+    resize: none;
+}
+
+.profile-field span {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+}
+
+/* Przycisk Zapisu */
+.save-btn {
+    background: linear-gradient(to right, #4b6cb7, #182848);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Tabela wyników */
+h3 {
+    text-align: center;
+    color: #182848;
+    margin-top: 40px;
+}
+
+table {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto 50px auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+table thead {
+    background: #4b6cb7;
+    color: white;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}

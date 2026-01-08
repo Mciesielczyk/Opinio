@@ -20,9 +20,16 @@
 
 <div class="survey-list">
     <?php foreach ($Surveys as $survey): ?>
-        <a href="/survey?id=<?= $survey['id']; ?>" class="survey-card">
-            <img src="/public/uploads/surveys/<?= $survey['image_url'] ?: 'default-survey.png' ?>" 
-                 alt="<?= htmlspecialchars($survey['title']); ?>">
+        <a href="/survey?id=<?= $survey['id']; ?>" 
+           class="survey-card <?= $survey['is_completed'] ? 'completed' : ''; ?>">
+            
+            <div class="image-wrapper">
+                <img src="/public/uploads/surveys/<?= $survey['image_url'] ?: 'default-survey.png' ?>" 
+                     alt="<?= htmlspecialchars($survey['title']); ?>">
+                <?php if ($survey['is_completed']): ?>
+                    <div class="status-overlay">WYPEŁNIONO ✓</div>
+                <?php endif; ?>
+            </div>
             
             <h3><?= htmlspecialchars($survey['title']); ?></h3>
         </a>

@@ -110,7 +110,11 @@ class Routing {
 'updateSurveyImage' => [
     'controller' => 'AdminController',
     'action' => 'updateSurveyImage'
-]
+],
+'updateProfileData' => [
+    'controller' => 'ProfileController',
+    'action' => 'updateProfileData'
+],
      ];
 
 

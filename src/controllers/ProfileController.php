@@ -51,4 +51,25 @@ public function uploadImage() {
         }
     }
 }
+
+public function updateProfileData() {
+    $this->requireLogin();
+    
+    if (!$this->isPost()) {
+        header("Location: /profile");
+        exit();
+    }
+
+    $name = $_POST['name'];
+    $surname = $_POST['surname'];
+    $description = $_POST['description'];
+    $userEmail = $_SESSION['username']; // upewnij się czy używasz 'username' czy 'user_email'
+
+    $this->userRepository->updateUserDetails($userEmail, $name, $surname, $description);
+
+    header("Location: /profile?success=updated");
+    exit();
+}
+
+
 }

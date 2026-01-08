@@ -5,39 +5,49 @@ require_once 'Repository.php';
 class MatchRepository extends Repository
 {
 public function getRandomMatch(int $my_id): ?array
-    {
-        $stmt = $this->database->connect()->prepare('
-            SELECT u.id, u.name, u.surname,
-            u.profile_picture,u.description, u.location
-            FROM users u
-            LEFT JOIN interactions i ON i.target_id = u.id AND i.user_id = :my_id
-            LEFT JOIN friends f ON (f.user_id_1 = u.id AND f.user_id_2 = :my_id) 
-                                OR (f.user_id_2 = u.id AND f.user_id_1 = :my_id)
-            WHERE u.id != :my_id 
-            AND i.id IS NULL 
-            AND f.id IS NULL
-            ORDER BY RANDOM() 
-            LIMIT 1
-        ');
+{
+    $stmt = $this->database->connect()->prepare('
+        SELECT u.id, u.name, u.surname, u.profile_picture, u.background_picture, u.description, u.location,
+               us.score_lewa_prawa, us.score_wladza_wolnosc, 
+               us.score_postep_konserwa, us.score_globalizm_nacjonalizm
+        FROM users u
+        LEFT JOIN user_scores us ON us.user_id = u.id
+        LEFT JOIN interactions i ON i.target_id = u.id AND i.user_id = :my_id
+        LEFT JOIN friends f ON (f.user_id_1 = u.id AND f.user_id_2 = :my_id) 
+                            OR (f.user_id_2 = u.id AND f.user_id_1 = :my_id)
+        WHERE u.id != :my_id 
+        AND f.id IS NULL
+        /* Pokazujemy tylko tych, co nie mają interakcji LUB mają "maybe" */
+        AND (i.id IS NULL OR i.action = \'maybe\')
+        /* Sortowanie: najpierw te bez interakcji (NULL), potem "maybe", a wewnątrz grup losowo */
+        ORDER BY 
+            (CASE WHEN i.id IS NULL THEN 0 ELSE 1 END) ASC, 
+            RANDOM() 
+        LIMIT 1
+    ');
+    
     $stmt->bindParam(':my_id', $my_id, PDO::PARAM_INT);
     $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    return $user ?: null;
-    }
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
   
     
-    public function addInteraction(int $user_id, int $target_id, string $action): void
-    {
-        $stmt = $this->database->connect()->prepare('
-            INSERT INTO interactions (user_id, target_id, action) 
-            VALUES (:user_id, :target_id, :action)
-        ');
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->bindParam(':target_id', $target_id, PDO::PARAM_INT);
-        $stmt->bindParam(':action', $action, PDO::PARAM_STR);
-        $stmt->execute();
-    }
+    public function addInteraction(int $userId, int $targetId, string $action) {
+    $stmt = $this->database->connect()->prepare('
+        INSERT INTO interactions (user_id, target_id, action)
+        VALUES (:u, :t, :a)
+        ON CONFLICT (user_id, target_id) 
+        DO UPDATE SET 
+            action = EXCLUDED.action,
+            created_at = CURRENT_TIMESTAMP
+    ');
+    
+    $stmt->execute([
+        'u' => $userId,
+        't' => $targetId,
+        'a' => $action
+    ]);
+}
 
     public function addFriend(int $user_id_1, int $user_id_2): void
     {

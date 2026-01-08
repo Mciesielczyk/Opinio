@@ -155,3 +155,13 @@ CREATE TABLE messages (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_read BOOLEAN DEFAULT FALSE
 );
+
+
+
+
+CREATE TABLE user_surveys_completed (
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    survey_id INTEGER REFERENCES surveys(id) ON DELETE CASCADE,
+    completed_at TIMESTAMP DEFAULT NOW(),
+    PRIMARY KEY (user_id, survey_id) -- Uniemożliwia zdublowanie wpisu dla tej samej pary
+);

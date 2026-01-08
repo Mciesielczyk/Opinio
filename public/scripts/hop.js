@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     submitBtn.addEventListener('click', () => {
-        console.log('🚀 Próba wysłania ankiety...');
+        console.log(' Próba wysłania ankiety...');
 
         if (!hasAnswer(current)) {
             alert('Zaznacz odpowiedź przed wysłaniem');
@@ -78,10 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('Dane do wysyłki (JSON):', JSON.stringify({ answers }));
 
+
+// POBIERANIE ID ANKIETY Z URL (np. z /survey?id=5 pobierze "5")
+    const urlParams = new URLSearchParams(window.location.search);
+    const surveyId = urlParams.get('id');
+
+    // BUDOWANIE KOMPLETNEGO OBIEKTU
+    const payload = { 
+        survey_id: parseInt(surveyId), // Dodajemy to pole!
+        answers: answers 
+    };
+
+
         fetch('/saveSurvey', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ answers })
+            body: JSON.stringify({ payload })
         })
         .then(async res => {
             const text = await res.text();

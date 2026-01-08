@@ -16,13 +16,25 @@ class QuestionsController extends AppController  {
 
 
     public function questions() {
-$this->requireLogin();
-        $Surveys =  $this->surveysRepository->getSurveys();
-        return $this->render("questions", ['Surveys' => $Surveys]);
+    $this->requireLogin();
+    $userId = $_SESSION['user_id'];
+    $allSurveys = $this->surveysRepository->getSurveys();
+    
+    // Dodajemy informację o statusie do każdej ankiety
+    foreach ($allSurveys as &$survey) {
+        $survey['is_completed'] = $this->surveysRepository->isSurveyFinished($userId, $survey['id']);
     }
+
+    // Sortujemy: najpierw niewypełnione (0), potem wypełnione (1)
+    usort($allSurveys, function($a, $b) {
+        return $a['is_completed'] <=> $b['is_completed'];
+    });
+
+    return $this->render("questions", ['Surveys' => $allSurveys]);
+}
     
 
-        public function view() {
+    public function view() {
             $this->requireLogin();
         if (!isset($_GET['id'])) {
             die("Brak ID ankiety");
@@ -32,6 +44,11 @@ $this->requireLogin();
 
         $survey = $this->surveysRepository->getSurveyById($id);
         $questions = $this->surveysRepository->getQuestionsFromSurvey($id);
+
+        if($this->surveysRepository->isSurveyFinished($_SESSION['user_id'], $id)) {
+            header("Location: /questions?message=survey_completed");
+             exit;
+        }
 
         return $this->render("survey", [
             'survey' => $survey,
@@ -43,13 +60,15 @@ public function saveSurvey() {
     header('Content-Type: application/json');
     $this->requireLogin();
 
-    $data = json_decode(file_get_contents("php://input"), true);
+    $json = json_decode(file_get_contents("php://input"), true);
+    $data = $json['payload'] ?? null;
     if (!$data || !isset($data['answers'])) {
         echo json_encode(['status' => 'error', 'message' => 'Brak danych']);
         exit;
     }
 
     $answers = $data['answers'];
+    $surveyId = $data['survey_id'];
 
     // pobieramy id użytkownika
     $userId = $_SESSION['user_id'] ?? null; 
@@ -97,6 +116,7 @@ error_log("Wyniki PO PRZELICZENIU: " . print_r($userScore, true));
         $userScore['score_postep_konserwa'],
         $userScore['score_globalizm_nacjonalizm']
     );
+    $this->surveysRepository->markSurveyAsFinished($userId, $surveyId);
 
     echo json_encode(['status' => 'ok']);
     exit;

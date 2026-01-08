@@ -36,35 +36,51 @@
     </script>
 <?php endif; ?>
 
+
+
+    <?php
+    $backgroundFilename = $user['background_picture'] ?: 'default-bg.jpg';
+    $backgroundPath = "public/uploads/backgrounds/" . $backgroundFilename;
+?>
+
+
     <?php include 'header.php'; ?>
 
      <div class="message">
         Odkrywaj
     </div>
-
-    <div class="discover-container">
-        <?php if ($user) :?>
-        <div class="card">
-<div class="fade-bottom" 
-     style="background-image: url('/public/uploads/backgrounds/Flag_of_Poland_(normative).svg.png');">
-
-</div>
     
-    <div class="card-profile">
-                    <img src="/public/uploads/avatars/<?= $user['profile_picture'] ?: 'avatar.jpg' ?>" alt="Profilowe">            
-                        <div class="profile-info">
-                    <span class="profile-name"><?= htmlspecialchars($user['name']) ?>, <?= htmlspecialchars($user['surname']) ?></span>
-                    <span class="profile-location"><?= htmlspecialchars($user['location'] ?: 'Lokalizacja nieznana') ?></span>
+<div class="discover-container" id="card-start">
+    <?php if ($user) :?>
+        <div class="card">
+            <div class="card-header-bg" style="background-image: url('<?= $backgroundPath ?>');"></div>
+            
+            <div class="card-content">
+                <div class="card-avatar-wrapper">
+                    <img src="/public/uploads/avatars/<?= $user['profile_picture'] ?: 'default-avatar.png' ?>" alt="Profilowe" class="card-avatar">
                 </div>
-            </div>
-            <div class="card-description">
-                <?= htmlspecialchars($user['description'] ?: 'Brak opisu użytkownika.' )?>
-            </div>
-            <div class="compatibility">
-                <div class="compatibility-bar">
-                    <div class="compatibility-fill" style="width: 78%;"></div>
+
+                <div class="profile-info-main">
+                    <span class="profile-name"><?= htmlspecialchars($user['name']) ?> <?= htmlspecialchars($user['surname']) ?></span>
+                    <span class="profile-location">📍 <?= htmlspecialchars($user['location'] ?: 'Lokalizacja nieznana') ?></span>
                 </div>
-                <div class="compatibility-percent">78%</div>
+
+                <div class="card-description">
+                    <p><?= htmlspecialchars($user['description'] ?: 'Ten użytkownik nie dodał jeszcze opisu.') ?></p>
+                </div>
+
+                <div class="compatibility centered">
+                    <?php if (isset($similarity) && $similarity !== null) : ?>
+                        <div class="compatibility-bar">
+                            <div class="compatibility-fill" style="width: <?= $similarity ?>%;"></div>
+                        </div>
+                        <div class="compatibility-percent"><?= $similarity ?>% podobieństwa</div>
+                    <?php else: ?>
+                        <div class="compatibility-empty">
+                            <p>⚠️ Wypełnij ankiety, aby sprawdzić podobieństwo!</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
 

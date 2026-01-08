@@ -171,4 +171,23 @@ public function updateBackgroundPicture(string $email, string $fileName) {
     $stmt->execute();
 }
 
+
+
+public function updateUserDetails(string $email, string $name, string $surname, string $description) {
+    $stmt = $this->database->connect()->prepare('
+        UPDATE users SET 
+            name = :name, 
+            surname = :surname, 
+            description = :description 
+        WHERE email = :email
+    ');
+    
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->bindParam(':surname', $surname, PDO::PARAM_STR);
+    $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+    $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+    
+    $stmt->execute();
+}
+
 }
