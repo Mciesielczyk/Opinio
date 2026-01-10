@@ -51,9 +51,13 @@ class SecurityController extends AppController
         }
 
         // TODO możemy przechowywać sesje użytkowika lub token
-         setcookie("username", $userRow['email'], time() + 3600, '/');
-         
-        session_start(); // uruchom sesję jeśli jeszcze nie uruchomiona
+         //setcookie("username", $userRow['email'], time() + 3600, '/');
+         $lifetime = 3600;
+         session_set_cookie_params($lifetime, '/');
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
         $_SESSION['user_id'] = $userRow['id']; // ID użytkownika
         $_SESSION['username'] = $userRow['email']; // opcjonalnie e-mail
         $_SESSION['user_role'] = $userRow['role']; // rola użytkownika

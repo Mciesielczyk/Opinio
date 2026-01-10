@@ -8,6 +8,7 @@
 
         <link rel="stylesheet" type="text/css" href="public/styles/header.css">
     <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
+
 </head>
 <body>
     
@@ -38,10 +39,7 @@
 
 
 
-    <?php
-    $backgroundFilename = $user['background_picture'] ?: 'default-bg.jpg';
-    $backgroundPath = "public/uploads/backgrounds/" . $backgroundFilename;
-?>
+
 
 
     <?php include 'header.php'; ?>
@@ -52,6 +50,10 @@
     
 <div class="discover-container" id="card-start">
     <?php if ($user) :?>
+            <?php
+    $backgroundFilename = $user['background_picture'] ?: 'default-bg.jpg';
+    $backgroundPath = "public/uploads/backgrounds/" . $backgroundFilename;
+?>
         <div class="card">
             <div class="card-header-bg" style="background-image: url('<?= $backgroundPath ?>');"></div>
             

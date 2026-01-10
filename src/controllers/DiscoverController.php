@@ -20,23 +20,24 @@ public function swipe() {
     
     $my_id = $_SESSION['user_id'];
     $target_id = $_POST['target_id'];
-    $action = $_POST['action']; // 'like', 'dislike' lub 'maybe'
+    $action = $_POST['action'];
 
-    // Zapisujemy dokładnie to, co przyszło z przycisku
-    $this->matchRepository->addInteraction($my_id, $target_id, $action);
-
+    // Jeśli to "like", wywołujemy nową, złożoną metodę
     if ($action === 'like') {
-        if ($this->matchRepository->checkMatch($my_id, $target_id)) {
-            $this->matchRepository->addFriend($my_id, $target_id);
+        $isMatch = $this->matchRepository->handleLike($my_id, $target_id);
+        
+        if ($isMatch) {
             header('Location: /discover?match=true');
             exit;
         }
+    } else {
+        // Dla 'dislike' lub 'maybe' po prostu zapisujemy interakcję
+        $this->matchRepository->addInteraction($my_id, $target_id, $action);
     }
 
-header("Location: /discover#card-start");
+    header("Location: /discover#card-start");
     exit;
 }
-
     
     public function discover() {
         $this->requireLogin();
@@ -44,21 +45,21 @@ header("Location: /discover#card-start");
 
         $user = $this->matchRepository->getRandomMatch($my_id);
         $similarity = null;
-        $myScores = $this->userRepository->getUserScores($my_id);
             
-            // Przygotowujemy wyniki wylosowanego użytkownika
-            $targetScores = [
-                'score_lewa_prawa' => $user['score_lewa_prawa'] ?? 0,
-                'score_wladza_wolnosc' => $user['score_wladza_wolnosc'] ?? 0,
-                'score_postep_konserwa' => $user['score_postep_konserwa'] ?? 0,
-                'score_globalizm_nacjonalizm' => $user['score_globalizm_nacjonalizm'] ?? 0
-            ];
+          if ($user) {
+        $myScores = $this->userRepository->getUserScores($my_id);
+        
+        $targetScores = [
+            'score_lewa_prawa' => $user['score_lewa_prawa'] ?? 0,
+            'score_wladza_wolnosc' => $user['score_wladza_wolnosc'] ?? 0,
+            'score_postep_konserwa' => $user['score_postep_konserwa'] ?? 0,
+            'score_globalizm_nacjonalizm' => $user['score_globalizm_nacjonalizm'] ?? 0
+        ];
 
-            // Obliczamy podobieństwo tylko jeśli TY masz jakiekolwiek wyniki
-            if ($myScores) {
-                // Wywołujemy Twoją funkcję (popraw nazwę jeśli jest w klasie np. Calculator::calculate...)
-                $similarity = calculateSimilarity($myScores, $targetScores);
-            }
+        if ($myScores) {
+            $similarity = calculateSimilarity($myScores, $targetScores);
+        }
+    }
         
 
         return $this->render("discover", [

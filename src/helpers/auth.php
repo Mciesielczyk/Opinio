@@ -1,10 +1,17 @@
 <?php
 function checkLogin() {
-    if (!isset($_COOKIE['username'])) {
+    // Sprawdzamy, czy sesja jest wystartowana
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    // Sprawdzamy, czy w sesji zapisaliśmy email/username
+    if (!isset($_SESSION['username'])) {
+        // Jeśli nie ma sesji, wyrzucamy na login
         header("Location: /login");
         exit();
     }
 
-    // tutaj możesz zwrócić lub echo dane użytkownika
-    return $_COOKIE['username'];
+    // Zwracamy email zalogowanego użytkownika
+    return $_SESSION['username'];
 }

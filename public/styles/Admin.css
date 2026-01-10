@@ -13,7 +13,7 @@
 
 body {
     background-color: var(--bg-color);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
     color: var(--text-color);
     margin: 0;
 }
@@ -237,19 +237,7 @@ hr {
 
 
 /* ===== GŁÓWNY KONTENER PANELU ===== */
-.admin-container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
 
-.admin-section {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow);
-    margin-bottom: 40px;
-}
 
 .admin-section h2 {
     margin-top: 0;
@@ -413,4 +401,59 @@ select:focus {
 .btn-danger:hover {
     background-color: var(--danger-color);
     color: #fff;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Pozwala na scrollowanie tabeli na boki na telefonie */
+    -webkit-overflow-scrolling: touch;
+    margin-top: 10px;
+}
+
+table {
+    min-width: 500px; /* Gwarantuje, że kolumny nie będą zbyt ściśnięte */
+}
+/* GŁÓWNY KONTENER */
+.admin-container {
+    width: 95%; /* Na telefonach zajmuje prawie całą szerokość */
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 0;
+}
+.admin-section {
+    background: #ffffff; /* Wymuszamy czyste białe tło */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+    color: #333; /* Ciemny tekst dla czytelności */
+}
+/* SIATKA ANKIET */
+.surveys-grid {
+    display: grid;
+    /* Na telefonie 1 kolumna, na tablecie 2, na komputerze auto-fill */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+/* FORMULARZ DODAWANIA ANKIETY */
+.admin-section form {
+    display: flex;
+    flex-wrap: wrap; /* Pozwala przyciskowi spaść pod input na wąskich ekranach */
+    gap: 10px;
+}
+
+.admin-section form input {
+    flex: 1;
+    min-width: 200px; /* Żeby input nie był zbyt mały */
+}
+
+.admin-section form button {
+    width: 100%; /* Na małych ekranach przycisk na całą szerokość */
+}
+
+@media (min-width: 600px) {
+    .admin-section form button {
+        width: auto; /* Na większych wraca do normalnego rozmiaru */
+    }
 }

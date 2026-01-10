@@ -190,4 +190,17 @@ public function updateUserDetails(string $email, string $name, string $surname, 
     $stmt->execute();
 }
 
+
+public function getUserById(int $id): ?array {
+    $stmt = $this->database->connect()->prepare('
+        SELECT * FROM users WHERE id = :id LIMIT 1;
+    ');
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $user ? $user : null;
+
+}
 }

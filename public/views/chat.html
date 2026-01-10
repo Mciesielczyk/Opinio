@@ -7,12 +7,24 @@
            <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
 
         <link rel="stylesheet" type="text/css" href="public/styles/header.css">
-    <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/Chat.css">
 </head>
 
     <?php include 'header.php'; ?>
 
-<div class="chat-container">
+<div class="chat-container"
+    data-receiver-id="<?= $receiverId ?>" 
+     data-my-id="<?= $_SESSION['user_id'] ?>">
+
+    <div class="chat-header">
+        <a href="/friends" class="back-btn">←</a>
+        <img src="/public/uploads/avatars/<?= $receiver['profile_picture'] ?: 'default-avatar.png' ?>" alt="Avatar" class="header-avatar">
+        <div class="header-info">
+            <span class="header-name"><?= htmlspecialchars($receiver['name'] . ' ' . $receiver['surname']) ?></span>
+            
+        </div>
+    </div>
+
     <div class="messages-window">
         <?php foreach ($messages as $msg): ?>
             <div class="message-wrapper <?= $msg['sender_id'] == $_SESSION['user_id'] ? 'sent' : 'received' ?>">
@@ -30,5 +42,5 @@
     </form>
 </div>
     
-   
+   <script src="public/scripts/chat_AJAX.js"></script>
 </html>

@@ -1,24 +1,20 @@
 header {
+    width: 100%;
+    box-sizing: border-box; /* Kluczowe: padding nie rozszerza paska poza ekran */
     display: flex;
     align-items: center;
-    justify-content: space-between; /* logo po lewej, settings po prawej */
-    background: rgba(255, 255, 255, 0.211);
-    backdrop-filter: blur(20px);
-    padding: 40px 200px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    font-size: 1.6rem;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.25); /* Nieco wyraźniejsze tło */
+    backdrop-filter: blur(25px);
+    
+    /* POWIĘKSZENIE PASKA: zwiększamy padding góra/dół */
+    padding: 30px 5%; 
+    
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     position: relative;
+    z-index: 1000;
 }
 
-
-
-/* Logo */
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-}
 
 /* Menu w headerze */
 .menu {
@@ -29,26 +25,59 @@ header {
   
 }
 
-.menu button {
-    padding: 18px 28px;
-    border: none;
-    border-radius: 5px;
-    background: #ddd;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: large;
-    transition: 0.2s;
+
+/* POWIĘKSZENIE LOGO */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 800;
+    font-size: 2.2rem; /* Większe logo */
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
+/* POWIĘKSZENIE PRZYCISKÓW W MENU */
+.menu button {
+    padding: 15px 35px; /* Większe przyciski */
+    border: none;
+    border-radius: 8px;
+    background: #eee;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.4rem; /* Większa czcionka w menu */
+    transition: 0.3s;
+}
+
+/* POWIĘKSZENIE LINKU ADMINA */
+.admin-link {
+    color: gold;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding: 15px 35px;
+    align-self: center;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/* POWIĘKSZENIE IKONEK (Zębatka i Profil) */
+.icons {
+    font-size: 2.5rem; /* Większe ikony emoji/ustawień */
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+button.settings {
+    font-size: 32px; /* Rozmiar samej zębatki */
+    cursor: pointer;
+    background: none;
+    border: none;
+}
 .menu button:hover {
     background: #ccc;
 }
 
-/* Settings po prawej */
-.icons {
-    font-size: 1.5rem;
-    cursor: pointer;
-}
 
 
 .dropdown {
@@ -70,14 +99,59 @@ header {
 }
 
 
-button.settings {
-    background: none;       /* usuwa tło */
-    border: none;           /* usuwa obramówkę */
-    padding: 0;             /* usuwa padding, jeśli chcesz dopasować do ikony */
-    cursor: pointer;        /* zmienia kursor na wskazujący */
-    font-size: 24px;        /* rozmiar ikony */
-}
+
 
 button.settings:hover {
     opacity: 0.8;           /* lekki efekt hover */
+}
+
+
+@media (max-width: 800px) {
+    header {
+        /* Układamy Logo, Menu i Ikony w pionowej kolumnie */
+        flex-direction: column; 
+        padding: 20px 10px; 
+        gap: 20px;
+        height: auto;
+        align-items: center; /* Środkujemy wszystko */
+        text-align: center;
+    }
+
+    .menu {
+        /* Przyciski nawigacji pod sobą */
+        flex-direction: column; 
+        width: 100%;
+        gap: 10px;
+    }
+
+    .menu a, .menu button {
+        /* Rozciągamy przyciski na całą szerokość dla łatwiejszego klikania */
+        width: 100%; 
+        padding: 12px;
+        box-sizing: border-box;
+    }
+
+    .icons {
+        /* Kontener profilu i ustawień też pionowo */
+        display: flex;
+        flex-direction: column; 
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .settings-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Opcjonalnie: sprawiamy, by dropdown nie zasłaniał wszystkiego */
+    .dropdown {
+        position: static; /* Na mobile lepiej niech będzie częścią listy niż lata nad nią */
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background: rgba(255, 255, 255, 0.1);
+    }
 }

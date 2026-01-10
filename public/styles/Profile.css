@@ -66,8 +66,8 @@
 /* Przycisk edycji tła (umiejscowiony w rogu tła) */
 .cover-photo-container .edit-btn {
     position: absolute;
-    bottom: 15px;
-    right: 15px;
+    
+   
 }
 
 /* Formularz edycji danych */

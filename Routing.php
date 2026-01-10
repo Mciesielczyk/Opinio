@@ -115,6 +115,14 @@ class Routing {
     'controller' => 'ProfileController',
     'action' => 'updateProfileData'
 ],
+'getMessagesJson' => [
+    'controller' => 'MessageController',
+    'action' => 'getMessagesJson'
+],
+'sendMessageAjax' => [
+    'controller' => 'MessageController',
+    'action' => 'sendMessageAjax'
+]
      ];
 
 

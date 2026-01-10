@@ -1,0 +1,186 @@
+/* === KONSTRUKCJA GŁÓWNA === */
+.chat-container {
+    max-width: 900px;
+    margin: 30px auto;
+    height: 80vh; /* Czat zajmuje 80% wysokości ekranu */
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    color: #fff;
+}
+
+/* === NAGŁÓWEK CZATU === */
+.chat-header {
+    display: flex;
+    align-items: center;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    flex-shrink: 0;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #fff;
+    font-size: 2rem;
+    margin-right: 20px;
+    transition: transform 0.2s;
+}
+
+.back-btn:hover {
+    transform: scale(1.2);
+}
+
+.header-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    margin-right: 15px;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.header-status {
+    font-size: 0.9rem;
+    color: #2ecc71; /* Zielony kropka/status */
+}
+
+/* === OKNO WIADOMOŚCI === */
+.messages-window {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+/* Scrollbar dla okna wiadomości */
+.messages-window::-webkit-scrollbar {
+    width: 6px;
+}
+.messages-window::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+/* === DYMKI WIADOMOŚCI === */
+.message-wrapper {
+    display: flex;
+    width: 100%;
+}
+
+.message-wrapper.sent {
+    justify-content: flex-end;
+}
+
+.message-wrapper.received {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 65%;
+    padding: 15px 20px;
+    border-radius: 20px;
+    font-size: 1.2rem; /* DUŻA CZCIONKA */
+    line-height: 1.5;
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    word-wrap: break-word;
+}
+
+.sent .message-bubble {
+    background: linear-gradient(135deg, #FF5FA2 0%, #FF9966 100%);
+    color: #fff;
+    border-bottom-right-radius: 4px;
+}
+
+.received .message-bubble {
+    background: #ffffff;
+    color: #333;
+    border-bottom-left-radius: 4px;
+}
+
+.time {
+    display: block;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    opacity: 0.7;
+    text-align: right;
+}
+
+.received .time {
+    color: #666;
+}
+
+/* === POLE WPISYWANIA === */
+.chat-input {
+    display: flex;
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.1);
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 15px 25px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.9);
+    font-size: 1.2rem; /* DUŻA CZCIONKA WPISYWANIA */
+    color: #333;
+    outline: none;
+}
+
+.chat-input button {
+    padding: 0 30px;
+    border-radius: 30px;
+    background: #1222d4;
+    color: #fff;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.chat-input button:hover {
+    background: #0e1ba8;
+    transform: scale(1.05);
+}
+
+/* === RESPONSYWNOŚĆ === */
+@media (max-width: 800px) {
+    .chat-container {
+        margin: 0;
+        height: calc(100vh - 80px); /* Dopasowanie do reszty ekranu bez headera */
+        border-radius: 0;
+    }
+
+    .message-bubble {
+        max-width: 85%;
+        font-size: 1.1rem;
+    }
+
+    .chat-header {
+        padding: 10px 15px;
+    }
+}

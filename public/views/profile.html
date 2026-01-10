@@ -26,14 +26,13 @@
 <div class="profile-container">
     <h2>Profil użytkownika</h2>
 
- <div 
-    class="cover-photo-container" 
-    style="background-image: url('<?= $backgroundPath ?>');"
->
+<div class="cover-photo-container" style="background-image: url('<?= $backgroundPath ?>');">
     <form action="uploadImage" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="image_type" value="background">
         <input type="file" name="file" id="bg-upload" hidden onchange="this.form.submit()">
-        <label for="bg-upload" class="edit-btn">Zmień tło</label>
+        <label for="bg-upload" class="edit-btn" style="position: relative; z-index: 999;">
+            Zmień tło
+        </label>
     </form>
 </div>
 

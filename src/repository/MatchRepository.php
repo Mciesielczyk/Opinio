@@ -7,19 +7,11 @@ class MatchRepository extends Repository
 public function getRandomMatch(int $my_id): ?array
 {
     $stmt = $this->database->connect()->prepare('
-        SELECT u.id, u.name, u.surname, u.profile_picture, u.background_picture, u.description, u.location,
-               us.score_lewa_prawa, us.score_wladza_wolnosc, 
-               us.score_postep_konserwa, us.score_globalizm_nacjonalizm
-        FROM users u
-        LEFT JOIN user_scores us ON us.user_id = u.id
-        LEFT JOIN interactions i ON i.target_id = u.id AND i.user_id = :my_id
-        LEFT JOIN friends f ON (f.user_id_1 = u.id AND f.user_id_2 = :my_id) 
-                            OR (f.user_id_2 = u.id AND f.user_id_1 = :my_id)
-        WHERE u.id != :my_id 
-        AND f.id IS NULL
-        /* Pokazujemy tylko tych, co nie mają interakcji LUB mają "maybe" */
-        AND (i.id IS NULL OR i.action = \'maybe\')
-        /* Sortowanie: najpierw te bez interakcji (NULL), potem "maybe", a wewnątrz grup losowo */
+        SELECT v.* FROM v_discover_users v
+        LEFT JOIN interactions i ON i.target_id = v.id AND i.user_id = :my_id
+        WHERE v.id != :my_id 
+          AND are_friends(v.id, :my_id) = FALSE
+          AND (i.id IS NULL OR i.action = \'maybe\')
         ORDER BY 
             (CASE WHEN i.id IS NULL THEN 0 ELSE 1 END) ASC, 
             RANDOM() 
@@ -68,5 +60,52 @@ public function getRandomMatch(int $my_id): ?array
         $stmt->execute([$targetId, $userId]); // Sprawdzamy czy TARGET polubił USERA
         return (bool)$stmt->fetch();
     }
+
+
+
+    public function handleLike(int $my_id, int $target_id): bool
+{
+    $db = $this->database->connect();
+    
+    try {
+        $db->beginTransaction();
+
+        // 1. Zapisujemy Twojego lajka
+        $stmt = $db->prepare('
+            INSERT INTO interactions (user_id, target_id, action) 
+            VALUES (?, ?, \'like\')
+            ON CONFLICT (user_id, target_id) DO UPDATE SET action = \'like\'
+        ');
+        $stmt->execute([$my_id, $target_id]);
+
+        // 2. Sprawdzamy czy ta druga osoba już Cię wcześniej polubiła
+        $stmtCheck = $db->prepare('
+            SELECT 1 FROM interactions 
+            WHERE user_id = ? AND target_id = ? AND action = \'like\'
+        ');
+        $stmtCheck->execute([$target_id, $my_id]);
+        $isMatch = (bool)$stmtCheck->fetch();
+
+        // 3. Jeśli jest MATCH – dodajemy do znajomych
+        if ($isMatch) {
+            $stmtFriend = $db->prepare('
+                INSERT INTO friends (user_id_1, user_id_2, status) 
+                VALUES (?, ?, \'accepted\')
+                ON CONFLICT DO NOTHING
+            ');
+            $stmtFriend->execute([$my_id, $target_id]);
+        }
+
+        $db->commit();
+        return $isMatch; // Zwracamy informację do kontrolera, czy był match (żeby np. pokazać powiadomienie)
+
+    } catch (\Exception $e) {
+        $db->rollBack();
+        error_log($e->getMessage());
+        return false;
+    }
+}
+
+
 
 } 

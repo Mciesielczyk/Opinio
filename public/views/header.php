@@ -7,8 +7,8 @@
         <a href="/discover"><button>Odkrywaj</button></a>
 
        <?php if ($_SESSION['user_role'] === 'admin'): ?>
-        <a href="/adminPanel" style="color: gold;">PANEL ADMINA</a>
-        <?php endif; ?>
+    <a href="/adminPanel" class="admin-link">PANEL ADMINA</a>
+<?php endif; ?>
 
     </div>
 

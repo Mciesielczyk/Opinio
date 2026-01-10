@@ -15,37 +15,17 @@ class SurveysRepository extends Repository
         return $Surveys;
     }
 
-    public function getQuestionsFromSurvey(int $id): ?array
-    {
-        // 1. Poprawny kod SQL z użyciem placeholder'a (?)
-        $stmt = $this->database->connect()->prepare('
-            SELECT
-                A.id,
-                A.question_text,
-                A.score_lewa_prawa,
-                A.score_wladza_wolnosc,
-                A.score_postep_konserwa,
-                A.score_globalizm_nacjonalizm
-            FROM
-                questions AS A
-            JOIN
-                surveys AS B
-            ON
-                A.survey_id = B.id
-            WHERE 
-                B.id = ?; 
-        ');
+public function getQuestionsFromSurvey(int $id): ?array
+{
+    $stmt = $this->database->connect()->prepare('
+        SELECT * FROM v_survey_questions WHERE survey_id = ?
+    ');
 
-        // 2. Binding (zabezpieczenie) wartości $id i wykonanie zapytania
-        $stmt->bindParam(1, $id, PDO::PARAM_INT);
-        $stmt->execute();
-        
-        // 3. Użycie fetchAll() do pobrania wszystkich wyników
-        $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->execute([$id]);
+    $questions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Zwrócenie wyników lub null, jeśli nie znaleziono pytań
-        return $questions ?: null;
-    }
+    return $questions ?: null;
+}
 
     public function getQuestionByIdAll(int $id): ?array
     {
