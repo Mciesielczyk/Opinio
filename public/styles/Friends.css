@@ -1,109 +1,109 @@
-/* ===== LISTA ZNAJOMYCH ===== */
+
 .friends-list {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 0 20px;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
 .friends-list ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-        flex-direction: column; /* układa karty pionowo */
-    gap: 15px; /* odstęp między kartami */
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column; 
+  gap: 15px; 
 }
 
 .friend-card {
-    display: flex;
-    align-items: center;
-        justify-content: space-between; /* rozstawia elementy na całej szerokości */
-    gap: 15px;
-    padding: 15px;
-    border-radius: 12px;
-    background: #ffffff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 15px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .friend-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .friend-card img {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #ddd;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
 }
 
 .friend-info {
-    display: flex;
-    flex-direction: column;
-    margin-left: 15px;
-    flex: 1; /* zajmuje dostępne miejsce między zdjęciem a prawą częścią */
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  flex: 1; 
 }
 
 .friend-name {
-    font-weight: 700;
-    font-size: 1.3rem;
-    color: #333;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #333;
 }
 
 .friend-similarity {
-    font-size: 0.9rem;
-    color: #888;
+  font-size: 0.9rem;
+  color: #888;
 }
 
-/* ===== INFORMACJA O WYSZUKIWANIU ===== */
+
 .search-info {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 15px 20px;
-    display: flex;
-    justify-content: space-between; /* Tekst po lewej, przycisk po prawej */
-    align-items: center;
-    background: #f8f9fa; /* Bardzo jasne tło, żeby odróżnić od kart */
-    border-left: 5px solid #ff4b2b; /* Akcent kolorystyczny pasujący do przycisków */
-    border-radius: 8px;
-    font-family: 'Arial', sans-serif;
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  background: #f8f9fa; 
+  border-left: 5px solid #ff4b2b; 
+  border-radius: 8px;
+  font-family: "Arial", sans-serif;
 }
 
 .search-info p {
-    margin: 0;
-    color: #555;
-    font-size: 1.1rem;
+  margin: 0;
+  color: #555;
+  font-size: 1.1rem;
 }
 
 .search-info strong {
-    color: #ff4b2b; /* Wyróżnienie wyszukiwanej frazy */
+  color: #ff4b2b; 
 }
 
 .search-info a {
-    text-decoration: none;
-    color: #ffffff;
-    background: #ff4b2b;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    transition: background 0.3s, transform 0.2s;
-    box-shadow: 0 4px 10px rgba(255, 75, 43, 0.2);
+  text-decoration: none;
+  color: #ffffff;
+  background: #ff4b2b;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background 0.3s, transform 0.2s;
+  box-shadow: 0 4px 10px rgba(255, 75, 43, 0.2);
 }
 
 .search-info a:hover {
-    background: #e63e1f;
-    transform: scale(1.05);
+  background: #e63e1f;
+  transform: scale(1.05);
 }
 
-/* Responsywność dla urządzeń mobilnych */
+
 @media (max-width: 600px) {
-    .search-info {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-        border-left: none;
-        border-top: 5px solid #ff4b2b;
-    }
+  .search-info {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    border-left: none;
+    border-top: 5px solid #ff4b2b;
+  }
 }

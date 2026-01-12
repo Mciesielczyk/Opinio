@@ -8,7 +8,7 @@ public function getFriendsList(int $user_id): array
 {
     $stmt = $this->database->connect()->prepare('
         SELECT 
-            friend_id AS id, -- zmieniamy nazwę na "id", żeby pasowała do widoku
+            friend_id AS id,
             name, surname, profile_picture, description, location,
             score_lewa_prawa, score_wladza_wolnosc, score_postep_konserwa, score_globalizm_nacjonalizm
         FROM v_friends_details

@@ -1,51 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Witaj adminie</title>
-           <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
-
+    <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
     <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
-        <link rel="stylesheet" type="text/css" href="public/styles/Admin.css">
-                <link rel="stylesheet" type="text/css" href="public/styles/header.css">
-
+    <link rel="stylesheet" type="text/css" href="public/styles/Admin.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
 
 </head>
 
-    <?php include 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <div class="edit-survey-container">
     <a href="/adminPanel" class="back-link">← Powrót do panelu</a>
-    <h1>Edycja ankiety: <?= htmlspecialchars($survey['title']) ?></h1>
-<section class="edit-survey-image-section">
-    <h3>Zdjęcie ankiety</h3>
-    <div class="current-image">
-        <?php if($survey['image_url']): ?>
-            <img src="/public/uploads/surveys/<?= $survey['image_url'] ?>" alt="Miniatura" style="max-width: 200px; border-radius: 10px; margin-bottom: 10px;">
-        <?php else: ?>
+    <h1>Edycja ankiety:
+        <?= htmlspecialchars($survey['title']) ?>
+    </h1>
+    <section class="edit-survey-image-section">
+        <h3>Zdjęcie ankiety</h3>
+        <div class="current-image">
+            <?php if($survey['image_url']): ?>
+            <img src="/public/uploads/surveys/<?= $survey['image_url'] ?>" alt="Miniatura"
+                style="max-width: 200px; border-radius: 10px; margin-bottom: 10px;">
+            <?php else: ?>
             <p>Brak przypisanego zdjęcia.</p>
-        <?php endif; ?>
-    </div>
-
-    <form action="/updateSurveyImage" method="POST" enctype="multipart/form-data" class="admin-form">
-        <input type="hidden" name="survey_id" value="<?= $survey['id'] ?>">
-        <div class="input-group">
-            <label for="survey_image">Wybierz nowe zdjęcie (JPG/PNG):</label>
-            <input type="file" name="survey_image" id="survey_image" accept="image/*" required>
+            <?php endif; ?>
         </div>
-        <button type="submit" class="btn-save">Aktualizuj zdjęcie</button>
-    </form>
-</section>
 
-<hr>
+        <form action="/updateSurveyImage" method="POST" enctype="multipart/form-data" class="admin-form">
+            <input type="hidden" name="survey_id" value="<?= $survey['id'] ?>">
+            <div class="input-group">
+                <label for="survey_image">Wybierz nowe zdjęcie (JPG/PNG):</label>
+                <input type="file" name="survey_image" id="survey_image" accept="image/*" required>
+            </div>
+            <button type="submit" class="btn-save">Aktualizuj zdjęcie</button>
+        </form>
+    </section>
+
+    <hr>
 
 
     <section class="add-question-section">
         <h3>Dodaj nowe pytanie</h3>
         <form action="/addQuestion" method="POST" class="admin-form">
             <input type="hidden" name="survey_id" value="<?= $survey['id'] ?>">
-            
+
             <div class="input-group">
                 <label>Treść pytania:</label>
                 <textarea name="question_text" rows="3" required placeholder="Wpisz treść pytania..."></textarea>
@@ -75,14 +77,14 @@
 
     <hr>
 
-<section class="existing-questions">
-    <h3>Lista pytań w tej ankiecie</h3>
-    <?php if (empty($questions)): ?>
+    <section class="existing-questions">
+        <h3>Lista pytań w tej ankiecie</h3>
+        <?php if (empty($questions)): ?>
         <div class="no-questions-info">
             <p>Ta ankieta nie posiada jeszcze żadnych pytań. Użyj formularza powyżej, aby dodać pierwsze pytanie.</p>
         </div>
-    <?php else: ?>
-    <?php foreach($questions as $q): ?>
+        <?php else: ?>
+        <?php foreach($questions as $q): ?>
         <form action="/updateQuestion" method="POST" class="edit-question-card">
             <input type="hidden" name="question_id" value="<?= $q['id'] ?>">
             <input type="hidden" name="survey_id" value="<?= $survey['id'] ?>">
@@ -92,7 +94,7 @@
                 <input type="text" name="question_text" value="<?= htmlspecialchars($q['question_text']) ?>" required>
             </div>
 
-            <div class="edit-scores-row"> 
+            <div class="edit-scores-row">
                 <div class="score-field">
                     <span>L/P</span>
                     <input type="number" name="lp" min="-5" max="5" value="<?= $q['score_lewa_prawa'] ?>">
@@ -109,15 +111,15 @@
                     <span>G/N</span>
                     <input type="number" name="gn" min="-5" max="5" value="<?= $q['score_globalizm_nacjonalizm'] ?>">
                 </div>
-                
+
                 <button type="submit" class="btn-save">Zapisz zmiany</button>
-                <a href="/deleteQuestion?id=<?= $q['id'] ?>&survey_id=<?= $survey['id'] ?>" 
-                   class="btn-delete-small" 
-                   onclick="return confirm('Usunąć to pytanie?')">Usuń</a>
+                <a href="/deleteQuestion?id=<?= $q['id'] ?>&survey_id=<?= $survey['id'] ?>" class="btn-delete-small"
+                    onclick="return confirm('Usunąć to pytanie?')">Usuń</a>
             </div>
         </form>
-    <?php endforeach; ?>
-    <?php endif; ?>
-</section>
+        <?php endforeach; ?>
+        <?php endif; ?>
+    </section>
 </div>
+
 </html>

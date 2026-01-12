@@ -1,51 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Witaj adminie</title>
-           <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
-
+    <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
     <link rel="stylesheet" type="text/css" href="public/styles/Discover.css">
-            <link rel="stylesheet" type="text/css" href="public/styles/Admin.css">
-                    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/Admin.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
 
 
 </head>
 
-    <?php include 'header.php'; ?>
+<?php include 'header.php'; ?>
 
-   <div class="admin-container">
+<div class="admin-container">
     <h1>Panel Administratora</h1>
-
     <section class="admin-section">
         <h2>Zarządzanie Użytkownikami</h2>
         <div class="table-container">
-        <table>
-    <tr>
-        <th>Email</th>
-        <th>Rola</th>
-        <th>Akcje</th>
-    </tr>
-    <?php foreach($users as $user): ?>
-    <tr>
-        <td><?= htmlspecialchars($user['email']) ?></td>
-        <td>
-            <form action="/changeRole" method="POST" style="margin:0;">
-                <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
-                <select name="role" onchange="this.form.submit()">
-                    <option value="user" <?= $user['role'] === 'user' ? 'selected' : '' ?>>Użytkownik</option>
-                    <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
-                </select>
-            </form>
-        </td>
-        <td>
-            <a href="/deleteUser?id=<?= $user['id'] ?>" class="btn-delete" onclick="return confirm('Usunąć?')">Usuń</a>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
-</div>
+            <table>
+                <tr>
+                    <th>Email</th>
+                    <th>Rola</th>
+                    <th>Akcje</th>
+                </tr>
+                <?php foreach($users as $user): ?>
+                <tr>
+                    <td>
+                        <?= htmlspecialchars($user['email']) ?>
+                    </td>
+                    <td>
+                        <form action="/changeRole" method="POST" style="margin:0;">
+                            <input type="hidden" name="user_id" value="<?= $user['id'] ?>">
+                            <select name="role" onchange="this.form.submit()">
+                                <option value="user" <?=$user['role']==='user' ? 'selected' : '' ?>>Użytkownik</option>
+                                <option value="admin" <?=$user['role']==='admin' ? 'selected' : '' ?>>Admin</option>
+                            </select>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/deleteUser?id=<?= $user['id'] ?>" class="btn-delete"
+                            onclick="return confirm('Usunąć?')">Usuń</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        </div>
     </section>
 
     <section class="admin-section">
@@ -56,13 +58,16 @@
         </form>
         <div class="surveys-grid">
             <?php foreach($surveys as $s): ?>
-                <div class="survey-admin-card">
-                    <span><?= $s['title'] ?></span>
-                    <a href="/editSurvey?id=<?= $s['id'] ?>">Edytuj pytania</a>
-                    <a href="/deleteSurvey?id=<?= $s['id'] ?>" class="btn-danger">Usuń</a>
-                </div>
+            <div class="survey-admin-card">
+                <span>
+                    <?= $s['title'] ?>
+                </span>
+                <a href="/editSurvey?id=<?= $s['id'] ?>">Edytuj pytania</a>
+                <a href="/deleteSurvey?id=<?= $s['id'] ?>" class="btn-danger">Usuń</a>
+            </div>
             <?php endforeach; ?>
         </div>
     </section>
 </div>
+
 </html>

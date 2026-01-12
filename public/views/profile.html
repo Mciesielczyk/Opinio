@@ -1,107 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profil</title>
     <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
-        <link rel="stylesheet" type="text/css" href="public/styles/profile.css">
-        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
-
+    <link rel="stylesheet" type="text/css" href="public/styles/profile.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
 </head>
+
 <body>
-  <?php include 'header.php'; ?>
+    <?php include 'header.php'; ?>
     <?php
     $backgroundFilename = $user['background_picture'] ?: 'default-bg.jpg';
-    $backgroundPath = "public/uploads/backgrounds/" . $backgroundFilename;
-?>
-
-
+    $backgroundPath = "public/uploads/backgrounds/" . $backgroundFilename;?>
+    
     <div class="message">
         Profil
     </div>
 
+    <div class="profile-container">
+        <h2>Profil użytkownika</h2>
 
-    
-<div class="profile-container">
-    <h2>Profil użytkownika</h2>
+        <div class="cover-photo-container" style="background-image: url('<?= $backgroundPath ?>');">
+            <form action="uploadImage" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="image_type" value="background">
+                <input type="file" name="file" id="bg-upload" hidden onchange="this.form.submit()">
+                <label for="bg-upload" class="edit-btn" style="position: relative; z-index: 999;">
+                    Zmień tło
+                </label>
+            </form>
+        </div>
 
-<div class="cover-photo-container" style="background-image: url('<?= $backgroundPath ?>');">
-    <form action="uploadImage" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="image_type" value="background">
-        <input type="file" name="file" id="bg-upload" hidden onchange="this.form.submit()">
-        <label for="bg-upload" class="edit-btn" style="position: relative; z-index: 999;">
-            Zmień tło
-        </label>
-    </form>
-</div>
+        <div class="avatar-section">
+            <img src="public/uploads/avatars/<?= $user['profile_picture'] ?: 'default-avatar.png' ?>" alt="Avatar"
+                class="profile-avatar">
+            <form action="uploadImage" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="image_type" value="profile">
+                <input type="file" name="file" accept="image/*" id="avatar-input" hidden onchange="this.form.submit()">
+                <label for="avatar-input" class="edit-btn">Zmień awatar</label>
+            </form>
+        </div>
 
-    <div class="avatar-section">
-        <img src="public/uploads/avatars/<?= $user['profile_picture'] ?: 'default-avatar.png' ?>" alt="Avatar" class="profile-avatar">
-        <form action="uploadImage" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="image_type" value="profile">
-            <input type="file" name="file" accept="image/*" id="avatar-input" hidden onchange="this.form.submit()">
-            <label for="avatar-input" class="edit-btn">Zmień awatar</label>
+        <form action="updateProfileData" method="POST" class="profile-edit-form">
+            <div class="profile-field">
+                <label>Imię:</label>
+                <input name="name" type="text" value="<?= htmlspecialchars($user['name']); ?>" required>
+            </div>
+
+            <div class="profile-field">
+                <label>Nazwisko:</label>
+                <input name="surname" type="text" value="<?= htmlspecialchars($user['surname']); ?>" required>
+            </div>
+
+            <div class="profile-field">
+                <label>Email (nieedytowalny):</label>
+                <span>
+                    <?= htmlspecialchars($user['email']); ?>
+                </span>
+            </div>
+
+            <div class="profile-field">
+                <label>Twój Opis:</label>
+                <textarea name="description"
+                    placeholder="Napisz coś o sobie..."><?= htmlspecialchars($user['description'] ?? ''); ?></textarea>
+            </div>
+
+            <button type="submit" class="save-btn">Zapisz zmiany</button>
         </form>
     </div>
 
-    <form action="updateProfileData" method="POST" class="profile-edit-form">
-        <div class="profile-field">
-            <label>Imię:</label>
-            <input name="name" type="text" value="<?= htmlspecialchars($user['name']); ?>" required>
-        </div>
-
-        <div class="profile-field">
-            <label>Nazwisko:</label>
-            <input name="surname" type="text" value="<?= htmlspecialchars($user['surname']); ?>" required>
-        </div>
-
-        <div class="profile-field">
-            <label>Email (nieedytowalny):</label>
-            <span><?= htmlspecialchars($user['email']); ?></span>
-        </div>
-
-        <div class="profile-field">
-            <label>Twój Opis:</label>
-            <textarea name="description" placeholder="Napisz coś o sobie..."><?= htmlspecialchars($user['description'] ?? ''); ?></textarea>
-        </div>
-
-        <button type="submit" class="save-btn">Zapisz zmiany</button>
-    </form>
-</div>
-    
-</div>
+    </div>
 
 
-      <?php if (!empty($scores)): ?>
-        <h3>Wyniki użytkownika</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Lewo–Prawo</th>
-                    <th>Władza–Wolność</th>
-                    <th>Postęp–Konserwa</th>
-                    <th>Globalizm–Nacjonalizm</th>
-                    <th>Data obliczenia</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                    <tr>
-                        <td><?= htmlspecialchars($scores['score_lewa_prawa']); ?></td>
-                        <td><?= htmlspecialchars($scores['score_wladza_wolnosc']); ?></td>
-                        <td><?= htmlspecialchars($scores['score_postep_konserwa']); ?></td>
-                        <td><?= htmlspecialchars($scores['score_globalizm_nacjonalizm']); ?></td>
-                        <td><?= htmlspecialchars($scores['calculated_at']); ?></td>
-                    </tr>
-               
-            </tbody>
-        </table>
+    <?php if (!empty($scores)): ?>
+    <h3>Wyniki użytkownika</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Lewo–Prawo</th>
+                <th>Władza–Wolność</th>
+                <th>Postęp–Konserwa</th>
+                <th>Globalizm–Nacjonalizm</th>
+                <th>Data obliczenia</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td>
+                    <?= htmlspecialchars($scores['score_lewa_prawa']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($scores['score_wladza_wolnosc']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($scores['score_postep_konserwa']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($scores['score_globalizm_nacjonalizm']); ?>
+                </td>
+                <td>
+                    <?= htmlspecialchars($scores['calculated_at']); ?>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
     <?php else: ?>
-        <p>Brak wyników.</p>
+    <p>Brak wyników.</p>
     <?php endif; ?>
-    
-</div>
 
+    </div>
 </body>
 </html>

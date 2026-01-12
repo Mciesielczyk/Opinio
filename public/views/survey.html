@@ -1,53 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
-        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
-
-
+    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
 </head>
+
 <body>
-
     <?php include 'header.php'; ?>
-
 
     <div class="message">
         Pytania
     </div>
 
-    <h1><?= htmlspecialchars($survey['title']) ?></h1>
+    <h1>
+        <?= htmlspecialchars($survey['title']) ?>
+    </h1>
 
+    <?php if (empty($questions)): ?>
+    <div class="no-questions">
+        <p>Ta ankieta nie zawiera jeszcze żadnych pytań. Wróć później!</p>
+        <a href="/questions" class="back-link">⬅ Powrót do listy ankiet</a>
+    </div>
+    <?php else: ?>
     <form id="surveyForm">
         <?php foreach ($questions as $q): ?>
-            <div class="question">
-                <p><?= htmlspecialchars($q['question_text']) ?></p>
+        <div class="question">
+            <p>
+                <?= htmlspecialchars($q['question_text']) ?>
+            </p>
 
-                <div class="options-container"> <?php for ($i = 1; $i <= 5; $i++): ?>
-                        <label class="option-label">
-                            <input type="radio" 
-                                name="answer<?= $q['id'] ?>" 
-                                value="<?= $i ?>">
-                            <?= $i ?>
-                        </label>
-                    <?php endfor; ?>
-                </div>
+            <div class="options-container">
+                <?php for ($i = 1; $i <= 5; $i++): ?>
+                <label class="option-label">
+                    <input type="radio" name="answer<?= $q['id'] ?>" value="<?= $i ?>">
+                    <?= $i ?>
+                </label>
+                <?php endfor; ?>
             </div>
+        </div>
         <?php endforeach; ?>
     </form>
-
-<div class="navigation">
-    <button type="button" id="prevBtn">⬅️ Poprzednie</button>
-    <button type="button" id="nextBtn">➡️ Następne</button>
-    <button type="button" id="submitBtn">✅ Wyślij ankietę</button>
-</div>
-
-
-
-<script src="/public/scripts/hop.js"></script>
+    <div class="navigation">
+        <button type="button" id="prevBtn">Poprzednie</button>
+        <button type="button" id="nextBtn">Następne</button>
+        <button type="button" id="submitBtn">Wyślij ankietę</button>
+    </div>
+    <?php endif; ?>
 
 
+    <script src="/public/scripts/hop.js"></script>
 </body>
 </html>

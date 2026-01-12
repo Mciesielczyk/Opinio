@@ -1,39 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="public/styles/Login_0.css">
 </head>
-<body>
-   
-    <form id="register-form" action="/register" method="POST">
 
+<body>
+    <form id="register-form" action="/register" method="POST">
         <h1 id="title">REJESTRACJA</h1>
 
-         <?php if(isset($message)): ?>
-        <p class="message" id="pass_msg"><?= $message; ?></p>
-    <?php endif; ?>
-       
+        <?php if(isset($message)): ?>
+        <p class="message" id="pass_msg">
+            <?= $message; ?>
+        </p>
+        <?php endif; ?>
 
         <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>">
-
-        <input name="email"  placeholder="Podaj email">
-        <input name="password1" type="password"  id="password" placeholder="Podaj hasło">
-        <input name="password2" type="password"  id="confirm_password" placeholder="Powtórz hasło">
-
+        <input name="email" placeholder="Podaj email">
+        <input name="password1" type="password" id="password" placeholder="Podaj hasło">
+        <input name="password2" type="password" id="confirm_password" placeholder="Powtórz hasło">
         <input name="name" type="text" placeholder="Podaj imie">
         <input name="surname" type="text" placeholder="Podaj naziwsko">
 
         <button type="submit">REGISTER</button>
-
-         <!-- link do rejestracji -->
         <a href="/login">Logowanie</a>
     </form>
-        
 
     <script src="public/scripts/validationV2.js" defer></script>
-
 </body>
 </html>

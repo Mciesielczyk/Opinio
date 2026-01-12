@@ -31,7 +31,12 @@ class Database {
             return $conn;
         }
         catch(PDOException $e) {
-            die("Connection failed: " . $e->getMessage());
-        }
+        error_log("Database Connection Error: " . $e->getMessage());
+
+        // 2. Ustawiamy kod odpowiedzi HTTP na 500 (Internal Server Error)
+        http_response_code(500);
+
+        // 3. Wyświetlamy bezpieczny komunikat
+        die("Wystąpił błąd techniczny. Prosimy spróbować później.");        }
     }
 }

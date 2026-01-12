@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Repository.php';
+require_once __DIR__.'/../models/User.php';
 
 class UserRepository extends Repository
 {
@@ -191,7 +192,7 @@ public function updateUserDetails(string $email, string $name, string $surname, 
 }
 
 
-public function getUserById(int $id): ?array {
+public function getUserById(int $id): ?User {
     $stmt = $this->database->connect()->prepare('
         SELECT * FROM users WHERE id = :id LIMIT 1;
     ');
@@ -200,7 +201,18 @@ public function getUserById(int $id): ?array {
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return $user ? $user : null;
+    if (!$user) {
+        return null;
+    }
 
+    // Tworzymy i zwracamy obiekt klasy User
+    return new User(
+        $user['id'],
+        $user['email'],
+        $user['name'],
+        $user['surname'],
+        $user['role'],
+        $user['profile_picture'] ?? 'default.png'
+    );
 }
 }

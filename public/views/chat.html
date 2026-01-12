@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odkrywaj</title>
-           <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
-
-        <link rel="stylesheet" type="text/css" href="public/styles/header.css">
+    <title>Czat z <?= $receiver->getFullName() ?></title>
+    <link rel="stylesheet" type="text/css" href="public/styles/Questions.css">
+    <link rel="stylesheet" type="text/css" href="public/styles/header.css">
     <link rel="stylesheet" type="text/css" href="public/styles/Chat.css">
 </head>
 
-    <?php include 'header.php'; ?>
+<?php include 'header.php'; ?>
 
 <div class="chat-container"
     data-receiver-id="<?= $receiverId ?>" 
-     data-my-id="<?= $_SESSION['user_id'] ?>">
+    data-my-id="<?= $_SESSION['user_id'] ?>">
 
     <div class="chat-header">
         <a href="/friends" class="back-btn">←</a>
-        <img src="/public/uploads/avatars/<?= $receiver['profile_picture'] ?: 'default-avatar.png' ?>" alt="Avatar" class="header-avatar">
+        <img src="<?= $receiver->getProfilePicture() ?>" alt="Avatar" class="header-avatar">
+        
         <div class="header-info">
-            <span class="header-name"><?= htmlspecialchars($receiver['name'] . ' ' . $receiver['surname']) ?></span>
-            
+            <span class="header-name"><?= htmlspecialchars($receiver->getFullName()) ?></span>
         </div>
     </div>
 
@@ -37,10 +36,10 @@
     </div>
 
     <form action="/chat?id=<?= $receiverId ?>" method="POST" class="chat-input">
-        <input type="text" name="message" placeholder="Napisz wiadomość..." required>
+        <input type="text" name="message" placeholder="Napisz wiadomość..." required autocomplete="off">
         <button type="submit">Wyślij</button>
     </form>
 </div>
     
-   <script src="public/scripts/chat_AJAX.js"></script>
+<script src="public/scripts/chat_AJAX.js"></script>
 </html>
