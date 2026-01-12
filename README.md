@@ -226,3 +226,34 @@ fetch('/profile', { method: 'POST' })
 
 
 
+## Bingo
+<img width="712" height="824" alt="image" src="https://github.com/user-attachments/assets/dfebaa9f-69c7-4756-ab94-34d18a008d36" />
+
+1. Baza danych i Modele
+  SQL Injection: Ochrona poprzez Prepared Statements.
+  $stmt->prepare() i $stmt->execute(['param' => $value]).
+  Wzorzec Singleton: UserRepository zapewnia tylko jedno połączenie z bazą.
+  UserRepository::getInstance().
+
+2. Autoryzacja i Sesja
+  Haszowanie: Algorytm bcrypt do przechowywania haseł.
+  password_hash($pass, PASSWORD_BCRYPT).
+  Zarządzanie sesją: Pełne niszczenie danych przy wylogowaniu.
+  session_destroy().
+  Bezpieczne Cookie: Flagi HttpOnly, Secure oraz SameSite: Lax.
+  session_set_cookie_params([...]).
+  Regeneracja ID: Zmiana identyfikatora sesji po logowaniu (ochrona przed Session Fixation).
+  session_regenerate_id(true).
+
+3. Walidacja i Obsługa Błędów
+  Metody HTTP: Akcje zapisu (rejestracja/logowanie) tylko przez POST.
+  if($this->isPost()).
+  Kody błędów HTTP: Obsługa standardowych odpowiedzi (401, 403, 404, 405).
+  terminateWithCode() w klasie AppController.
+  Sanityzacja: Walidacja formatu e-mail, siły hasła (Regex) oraz długości znaków (strlen).
+  Ochrona XSS: Escapowanie danych wyświetlanych w HTML.
+  <?= htmlspecialchars($value) ?>.
+
+4. Transmisja
+  Wymuszony HTTPS: Dane logowania i rejestracji przesyłane są wyłącznie kanałem szyfrowanym.
+
